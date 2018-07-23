@@ -22,7 +22,7 @@ class MainWindow(Gtk.Window):
       menu_manager = MenuManager()
       menu.append("New", "app.new")
       menu.append("Save", "app.save")
-      menu.append("Open", "app.open_file")
+      menu.append("Open", "open")
 
       menu.append("Undo", "app.undo")
       menu.append("Redo", "app.redo")
@@ -30,7 +30,10 @@ class MainWindow(Gtk.Window):
       menuButton.set_menu_model(menu)
     
       header.pack_start(menuButton)
- 
+      #Actions for Menu widgets
+      open_action = Gio.SimpleAction(name="open")
+      open_action.connect("activate", menu_manager.open_clicked)
+      self.add_action(open_action)
       ## left vbox for notebook name 
       vboxLeft = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
       vboxLeft.set_homogeneous(False)
