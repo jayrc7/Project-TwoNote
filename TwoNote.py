@@ -19,9 +19,10 @@ class MainWindow(Gtk.Window):
       
       # drop menu
       menu = Gio.Menu()
+      menu_manager = MenuManager()
       menu.append("New", "app.new")
       menu.append("Save", "app.save")
-      menu.append("Open", "app.open")
+      menu.append("Open", "app.open_file")
 
       menu.append("Undo", "app.undo")
       menu.append("Redo", "app.redo")
