@@ -7,7 +7,7 @@ class MainWindow(Gtk.Window):
       Gtk.Window.__init__(self, title = "TwoNote")
       # size of window
       self.set_default_size(1920,1080)
-      self.set_border_width(10)
+      #self.set_border_width(10)
 
       header = Gtk.HeaderBar()
       header.set_show_close_button(True)
