@@ -2,13 +2,13 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
-class MainWindow(Gtk.Window): 
+#class MainWindow(Gtk.Window): 
    def __init__(self):
       Gtk.Window.__init__(self, title = "TwoNote")
       # size of window
       self.set_default_size(1920,1080)
-      self.set_border_width(10)
-
+     # self.set_border_width(10)
+	
       header = Gtk.HeaderBar()
       header.set_show_close_button(True)
       header.props.title = "TwoNote"
