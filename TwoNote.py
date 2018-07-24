@@ -1,5 +1,5 @@
 import gi
-import functions as func
+import menu_functions as menu_func
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
@@ -15,7 +15,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		header.props.title = "TwoNote"
 		self.set_titlebar(header)
 		
-		#Actions
+		#Actions for Menu Button drop down
 		new_action = Gio.SimpleAction.new("new", None)
 		new_action.connect("activate", self.new_clicked)
 		self.add_action(new_action)
@@ -46,6 +46,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		# drop menu
 		menu = Gio.Menu.new()
 		
+		# Creates items for drop Down Menu
 		new_item = Gio.MenuItem.new('New', 'win.new')
 		new_book_item = Gio.MenuItem.new('New Notebook', 'win.new_notebook')
 		open_item = Gio.MenuItem.new('Open', 'win.open')
@@ -53,6 +54,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		save_as_item = Gio.MenuItem.new('Save as', 'win.save_as')
 		settings_item = Gio.MenuItem.new('Preferences', 'win.settings')
 		
+		# appends items to drop down menu
 		menu.append_item(new_item)
 		menu.append_item(new_book_item)
 		menu.append_item(open_item)
@@ -112,8 +114,12 @@ class MainWindow(Gtk.ApplicationWindow):
       
 		header.pack_start(box)
 		
+		self.connect('destroy', Gtk.main_quit)
+		self.show_all()
+		
+	# Functions that call functions for Menu Button from menu_functions.py
 	def open_clicked(self, action, none):
-		func.open_file()
+		menu_func.open_file()
 	
 	def new_clicked(self, action, none):
 		print("new")
@@ -130,9 +136,9 @@ class MainWindow(Gtk.ApplicationWindow):
 	def settings_clicked(self, action, none):
 		print("settings")	    
 
+	
 
-window = MainWindow()
-window.connect("delete-event", Gtk.main_quit)
-window.show_all()
-Gtk.main()
+if __name__ == '__main__':
+    win = MainWindow()
+    Gtk.main()
 
