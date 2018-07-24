@@ -36,6 +36,10 @@ class MainWindow(Gtk.ApplicationWindow):
 		save_as_action.connect("activate", self.save_as_clicked)
 		self.add_action(save_as_action)
 		
+		settings_action = Gio.SimpleAction.new("settings", None)
+		settings_action.connect("activate", self.settings_clicked)
+		self.add_action(settings_action)
+		
 		# men button on right
 		menuButton = Gtk.MenuButton()
       
@@ -47,12 +51,14 @@ class MainWindow(Gtk.ApplicationWindow):
 		open_item = Gio.MenuItem.new('Open', 'win.open')
 		save_item = Gio.MenuItem.new('Save', 'win.save')
 		save_as_item = Gio.MenuItem.new('Save as', 'win.save_as')
+		settings_item = Gio.MenuItem.new('Preferences', 'win.settings')
 		
 		menu.append_item(new_item)
 		menu.append_item(new_book_item)
 		menu.append_item(open_item)
 		menu.append_item(save_item)
 		menu.append_item(save_as_item)
+		menu.append_item(settings_item)
 
 		menuButton.set_menu_model(menu)
     
@@ -119,7 +125,10 @@ class MainWindow(Gtk.ApplicationWindow):
 		print("save")	
     
 	def save_as_clicked(self, action, none):
-		print("save as")      
+		print("save as")  
+    
+	def settings_clicked(self, action, none):
+		print("settings")	    
 
 
 window = MainWindow()
