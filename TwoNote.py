@@ -119,7 +119,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
 	# Functions that call functions for Menu Button from menu_functions.py
 	def open_clicked(self, action, none):
-		menu_func.open_file()
+		menu_func.open_file(self)
 	
 	def new_clicked(self, action, none):
 		print("new")
@@ -128,7 +128,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		print("new notebook")
 		
 	def save_clicked(self, action, none):
-		menu_func.save_file(self.text)
+		menu_func.save_file(self, self.text)
     
 	def save_as_clicked(self, action, none):
 		print("save as")  
