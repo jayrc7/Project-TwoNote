@@ -1,5 +1,7 @@
 import gi
+import Menu_Button as menu_button
 import menu_functions as menu_func
+import sidebar_menu as sidebar
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
@@ -43,7 +45,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.menuButton = Gtk.MenuButton()
       
 		# drop menu
-		self.menu = Gio.Menu.new()
+		self.menu = menu_button.Gio.Menu()
 		
 		# Creates items for drop Down Menu
 		self.new_item = Gio.MenuItem.new('New', 'win.new')
@@ -70,8 +72,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.vboxLeft.set_homogeneous(False)
 
 		## frame for left vbox
-		self.leftFrame = Gtk.Frame()
-		self.leftFrame.add(self.vboxLeft)
+		self.leftFrame = sidebar.SidebarWindow()
 		self.leftFrame.set_hexpand(True)
 		self.leftFrame.set_vexpand(True)
 		
