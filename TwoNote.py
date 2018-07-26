@@ -43,9 +43,9 @@ class MainWindow(Gtk.ApplicationWindow):
 		
 		# men button on right
 		self.menuButton = Gtk.MenuButton()
-      
+		self.giomenu =  menu_button.NoteMenu()
 		# drop menu
-		self.menu = menu_button.Gio.Menu()
+		self.menu = menu_button.getMenu()
 		
 		# Creates items for drop Down Menu
 		self.new_item = Gio.MenuItem.new('New', 'win.new')
