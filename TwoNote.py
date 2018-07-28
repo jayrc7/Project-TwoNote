@@ -1,7 +1,6 @@
 import gi
 import TextSet as text_set
 import Menu_Button as menu_button
-import menu_functions as menu_func
 import sidebar_menu as sidebar
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
@@ -122,16 +121,16 @@ class MainWindow(Gtk.ApplicationWindow):
 		
 		
 	def open_clicked(self, action, none):
-		menu_func.open_file(self)
+		menu_button.open_file(self)
 	
 	def new_clicked(self, action, none):
 		print("new")
-		
+	
 	def new_book_clicked(self, action, none):
 		print("new notebook")
 		
 	def save_clicked(self, action, none):
-		menu_func.save_file(self, self.text)
+		menu_button.save_file(self, self.mytext)
     
 	def save_as_clicked(self, action, none):
 		print("save as")  
