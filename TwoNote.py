@@ -1,4 +1,5 @@
 import gi
+import TextSet as text_set
 import Menu_Button as menu_button
 import menu_functions as menu_func
 import sidebar_menu as sidebar
@@ -38,11 +39,8 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.vboxRight = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
 		self.vboxRight.set_homogeneous(False)
 		self.scroll_container = Gtk.ScrolledWindow()
-		self.text = Gtk.TextView()
-		self.text.set_indent(10)
-		self.text.set_top_margin(20)
-		self.text.set_left_margin(20)
-		self.scroll_container.add(self.text)
+		self.mytext = text_set.TextSet()
+		self.scroll_container.add(self.mytext)
 		self.vboxRight.pack_start(self.scroll_container, True, True, 0)
 
 		# frame for right box
@@ -53,8 +51,31 @@ class MainWindow(Gtk.ApplicationWindow):
 
 		# creates grid and adds frames
 		self.grid = Gtk.Grid()
-		self.grid.attach(self.leftFrame,0,0,2,10)
-		self.grid.attach_next_to(self.rightFrame, self.leftFrame, Gtk.PositionType.RIGHT, 7,10)
+		self.grid.attach(self.leftFrame,0,0,2,30)
+		self.toolbar = Gtk.Toolbar()
+		self.grid.attach(self.toolbar, 3, 0, 5, 1)
+		self.grid.attach_next_to(self.rightFrame, self.leftFrame, Gtk.PositionType.RIGHT, 7,30)
+		
+		 
+		self.button_bold = Gtk.ToggleToolButton()
+		self.button_bold.set_icon_name("format-text-bold-symbolic")
+		self.toolbar.insert(self.button_bold, 0)
+
+		self.button_italic = Gtk.ToggleToolButton()
+		self.button_italic.set_icon_name("format-text-italic-symbolic")
+		self.toolbar.insert(self.button_italic, 1)
+
+		self.button_underline = Gtk.ToggleToolButton()
+
+		self.button_underline.set_icon_name("format-text-underline-symbolic")
+		self.toolbar.insert(self.button_underline, 2)
+
+		self.button_bold.connect("clicked", self.mytext.on_button_clicked, "Bold")
+		self.button_italic.connect("clicked", self.mytext.on_button_clicked, "Italic")
+		self.button_underline.connect("clicked", self.mytext.on_button_clicked, "Underline")
+
+      
+
 
 		self.add(self.grid)
 

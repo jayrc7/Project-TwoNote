@@ -25,6 +25,14 @@ class TextSet(Gtk.TextView):
 		name = widget.get_icon_name()
 		value = widget.get_active()
 		bounds = self.textbuffer.get_selection_bounds()
-		if len(bounds) != 0:
+		#highlighting
+		if(value == True and len(bounds) != 0):  
 			start, end = bounds
 			self.textbuffer.apply_tag(tag, start, end)
+	
+	def mouse_clicked(self, window, event): 
+		self.button_bold.set_active(False)
+		self.button_italic.set_active(False)
+		self.button_underline.set_active(False)
+
+  
