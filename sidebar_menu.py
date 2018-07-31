@@ -1,5 +1,4 @@
 import gi
-import menu_functions as menu_func
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 

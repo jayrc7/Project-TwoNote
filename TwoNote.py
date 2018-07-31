@@ -121,7 +121,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		
 		
 	def open_clicked(self, action, none):
-		menu_button.open_file(self)
+		menu_button.open_file(self, self.mytext)
 	
 	def new_clicked(self, action, none):
 		print("new")

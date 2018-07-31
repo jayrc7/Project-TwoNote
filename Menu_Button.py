@@ -1,5 +1,4 @@
 import gi
-import menu_functions as menu_func
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
@@ -71,13 +70,15 @@ class NoteActionGroup(Gio.SimpleActionGroup):
 			
 '''
 filename = "Untitled"
-def open_file(window):
+def open_file(window, widget):
 		open_dialog = Gtk.FileChooserDialog("Open an existing file", window, Gtk.FileChooserAction.OPEN,(Gtk.STOCK_CANCEL,Gtk.ResponseType.CANCEL,Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 		open_response = open_dialog.run()
     
 		if open_response == Gtk.ResponseType.OK:
 			filename = open_dialog.get_filename()
-			dialog.destroy()
+			text =  open(filename).read()
+			widget.get_buffer().set_text(text)
+			open_dialog.destroy()
           
 		elif open_response == Gtk.ResponseType.CANCEL:
 			print("Cancel clicked")
