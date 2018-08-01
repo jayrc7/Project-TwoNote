@@ -69,9 +69,9 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.button_underline.set_icon_name("format-text-underline-symbolic")
 		self.toolbar.insert(self.button_underline, 2)
 
-		self.button_bold.connect("clicked", self.mytext.on_button_clicked, "Bold")
-		self.button_italic.connect("clicked", self.mytext.on_button_clicked, "Italic")
-		self.button_underline.connect("clicked", self.mytext.on_button_clicked, "Underline")
+		self.button_bold.connect("toggled", self.mytext.on_button_clicked, "Bold", self.button_italic, self.button_underline)
+		self.button_italic.connect("toggled", self.mytext.on_button_clicked, "Italic", self.button_bold, self.button_underline)
+		self.button_underline.connect("toggled", self.mytext.on_button_clicked, "Underline", self.button_bold, self.button_italic)
 
       
 
