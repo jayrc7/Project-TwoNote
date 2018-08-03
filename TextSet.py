@@ -23,14 +23,21 @@ class TextSet(Gtk.TextView):
 		#highlighting
 		if(len(bounds) != 0):
 			start, end = bounds
-			if(state):
+			myIter = self.tb.get_iter_at_mark(self.tb.get_insert())
+			myTags = myIter.get_tags()
+			if(myTags == [] and state == True):
 				self.tb.apply_tag_by_name(tagname, start, end)
+			
 			else: 
-				self.tb.remove_tag_by_name(tagname,start,end)
+				for i in range(len(myTags)):
+					print(myTags[i].props.name)
+					if(myTags[i].props.name == tagname):
+						
+						self.tb.remove_tag_by_name(tagname,start,end)
 		
 
 		
-
+		myTags = []
 		self.tb.markup(widget, tagname)
 				
 	def mouse_clicked(self, window, event): 
@@ -55,7 +62,7 @@ class TextBuffer(Gtk.TextBuffer):
 		self.tag_none = self.create_tag("None", weight=Pango.Weight.NORMAL)
 		self.tag_italic = self.create_tag("Italic", style=Pango.Style.ITALIC)
 		self.tag_underline = self.create_tag("Underline", underline=Pango.Underline.SINGLE)
-		self.tag_name = "None"
+	
 
 
 	def get_iter_position(self):
@@ -87,8 +94,8 @@ class TextBuffer(Gtk.TextBuffer):
 
 		else:
 			self.check = False
-			self.taglist_None.append('None')
-		print(*self.taglist_Underline)
+			
+		
 
 	def text_inserted(self, buffer, iter, text, length):
 		# A text was inserted in the buffer. If there are ny tags in self.tags_on,   apply them
@@ -108,7 +115,7 @@ class TextBuffer(Gtk.TextBuffer):
 					self.apply_tag_by_name('Underline', self.get_iter_position(), iter)
             
 			else:
-				self.apply_tag_by_name('None', self.get_iter_position(), iter)
+				self.remove_all_tags(self.get_iter_position(), iter)
 
             
   
