@@ -39,11 +39,15 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.leftFrame.set_hexpand(True)
 		self.leftFrame.set_vexpand(True)
 		
+		self.button_bold = Gtk.ToggleToolButton()
+		self.button_italic = Gtk.ToggleToolButton()
+		self.button_underline = Gtk.ToggleToolButton()
+		
 		## right vbox for notes 
 		self.vboxRight = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
 		self.vboxRight.set_homogeneous(False)
 		self.scroll_container = Gtk.ScrolledWindow()
-		self.mytext = text_set.TextSet()
+		self.mytext = text_set.TextSet(self.button_bold, self.button_italic, self.button_underline)
 		self.buff = self.mytext.get_buffer()
 		self.scroll_container.add(self.mytext)
 		self.vboxRight.pack_start(self.scroll_container, True, True, 0)
@@ -62,15 +66,15 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.grid.attach_next_to(self.rightFrame, self.leftFrame, Gtk.PositionType.RIGHT, 7,30)
 		
 		 
-		self.button_bold = Gtk.ToggleToolButton()
+		
 		self.button_bold.set_icon_name("format-text-bold-symbolic")
 		self.toolbar.insert(self.button_bold, 0)
 
-		self.button_italic = Gtk.ToggleToolButton()
+		
 		self.button_italic.set_icon_name("format-text-italic-symbolic")
 		self.toolbar.insert(self.button_italic, 1)
 
-		self.button_underline = Gtk.ToggleToolButton()
+		
 
 		self.button_underline.set_icon_name("format-text-underline-symbolic")
 		self.toolbar.insert(self.button_underline, 2)
@@ -153,11 +157,9 @@ class MainWindow(Gtk.ApplicationWindow):
 			## update gui
 
 
-			self.popup.destroy()  
+		self.popup.destroy()  
 			
-		elif(self.response == Gtk.ResponseType.CANCEL):
-                    
-			self.popup.destroy()    
+   
 
 	def new_book_clicked(self, action, none):
 		# will be used to retrieve input
@@ -169,11 +171,9 @@ class MainWindow(Gtk.ApplicationWindow):
 		if(self.response == Gtk.ResponseType.OK):
 			#save current work (new notebook will clear textview)
 			self.buff.set_text("")
-			self.popup.destroy()
+		self.popup.destroy()
 			#Create new notebook object by name and first page (notebook 
-		elif(self.response == Gtk.ResponseType.CANCEL):
-                    
-			self.popup.destroy()
+	
 
 	def save_clicked(self, action, none):
 		menu_button.save_file(self, self.mytext)
