@@ -1,5 +1,6 @@
 import gi
 import TextSet as text_set
+import Popup as pop
 import Menu_Button as menu_button
 import sidebar_menu as sidebar
 gi.require_version('Gtk', '3.0')
@@ -15,8 +16,12 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.set_show_close_button(True)
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
-		
-       
+
+                '''
+                when app opens, have it open up first notebook using page open method and first page that comes with it
+                edge case: if no notebooks then ask the user to create their first one and first page 
+                '''
+                
 		# men button on right
 		self.menuButton = Gtk.MenuButton()
 		# drop menu
@@ -39,6 +44,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.vboxRight.set_homogeneous(False)
 		self.scroll_container = Gtk.ScrolledWindow()
 		self.mytext = text_set.TextSet()
+                self.buff = self.mytext.get_buffer()
 		self.scroll_container.add(self.mytext)
 		self.vboxRight.pack_start(self.scroll_container, True, True, 0)
 
@@ -123,12 +129,48 @@ class MainWindow(Gtk.ApplicationWindow):
 	def open_clicked(self, action, none):
 		menu_button.open_file(self, self.mytext)
 	
-	def new_clicked(self, action, none):
-		print("new")
-	
+
+        
+
+
+        '''
+        binary search tree will be used to create notebook (tree itself will be notebook and first node is the first page)
+        pro of binary tree is opening pages will take less time compared to any other data structure 
+        nodes will be sorted by alphabetical order
+        '''
+	def new_clicked(self,  action, none):
+                ## will be used to retrieve input (pretty sure dialog has functionality to wait before closing so it can append input onto list
+                self.name = None
+ 	        self.popup = pop.PopUp(self, self.name, True)
+                self.response = self.popup.run()
+
+                if(self.response == Gtk.ResponseType.OK):
+                    ## save before doing next step 
+                    self.buff.set_text("")   ##method can be placed inside page constructor 
+                    ## get name of notebook (def notebook_name)
+                    ## add to notebook object (notebook.add(name of page))
+                    ## update gui
+
+
+                self.popup.destroy()      
+
 	def new_book_clicked(self, action, none):
-		print("new notebook")
-		
+                # will be used to retrieve input
+                self.name= []
+
+		self.popup = pop.PopUp(self, self.name,  False) 
+                self.response = self.popup.run()
+
+                if(self.response == Gtk.ResponseType.OK):
+                    #save current work (new notebook will clear textview)
+                    self.buff.set_text("")
+                    #Create new notebook object by name and first page (notebook 
+                    
+                    
+
+
+                self.popup.destroy()
+
 	def save_clicked(self, action, none):
 		menu_button.save_file(self, self.mytext)
     
@@ -137,6 +179,9 @@ class MainWindow(Gtk.ApplicationWindow):
     
 	def settings_clicked(self, action, none):
 		print("settings")
+
+
+        
 		
 		  
 
