@@ -19,9 +19,6 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
 
-                #used to test print pages
-                self.count = 0
-
                 #keeps track of notebooks
                 self.notebook_list = []
 
@@ -32,10 +29,13 @@ class MainWindow(Gtk.ApplicationWindow):
                 ## current notebook instance variable
                 self.notebookname = None
                 self.pagename = None
+                
+                #for binary trees
                 self.notebook = None
                 self.page = None
-                self.currentpage = None
-                self.currentpagenum = None
+
+                #for gui
+                self.gui_notebook = None
 
                 
 		# men button on right
@@ -167,7 +167,14 @@ class MainWindow(Gtk.ApplicationWindow):
 		pro of binary tree is opening pages will take less time compared to any other data structure 
 		nodes will be sorted by alphabetical order
 		'''
-		
+	
+
+
+        '''
+        when clicked, notebook section and page has to stay active until another one is clicked
+        when the user clicks another, it should open the file for them and apply it to textview
+        look into list of buttons
+        '''
 	def new_clicked(self,  action, none):
 		self.popup = pop.PopUp(self, True)
 		self.response = self.popup.run()
@@ -178,12 +185,13 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.pagename = self.popup.entry.get_text()
                         self.page = tree.BinaryTree.Page(self.pagename)
                         self.notebook.add(self.page)
-                        self.count = self.count + 1
-                        if(self.count is 3):
-                            self.notebook.list_pages()
-			## get name of notebook (def notebook_name)
-			## add to notebook object (notebook.add(name of page))
+
 			## update gui
+                        self.gui_notebook = self.notebook.get_current_section(self.notebook_layout)
+                        self.notebook.add_page_gui(self.gui_notebook, self.pagename)
+
+                        self.notebook_layout.show_all()
+
 
 
 		self.popup.destroy()  
@@ -203,28 +211,17 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.pagename = self.popup.entry2.get_text()
                         self.page = tree.BinaryTree.Page(self.pagename)
                         self.notebook.add(self.page)
-                        self.count = self.count + 1
-                        self.notebook_list.append(self.notebookname)
-
-                        ##adds notebook to gui
-                        self.notebook_layout.insert_page(Gtk.ListBox(), Gtk.Label(self.notebookname), -1)
-
+                        self.notebook_list.append(self.notebook)
+                        
+                        #adds notebook to gui
+                        self.notebook.add_notebook_gui(self.notebook_layout, self.notebookname)
 
                         ##makes new notebook current notebook 
-                        self.notebook_layout.set_current_page(len(self.notebook_list) - 1)
-                        self.currentpagenum = self.notebook_layout.get_current_page()
-                        self.currentpage = self.notebook_layout.get_nth_page(self.currentpagenum)
+                        self.gui_notebook = self.notebook.set_current_section(self.notebook_layout)
                         
-                        #adds first page onto gui
-                        self.row = Gtk.ListBoxRow()
-                        self.togglebut = Gtk.ToggleButton(label = self.pagename)
-                        self.box = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 100)
-                        self.row.add(self.box)
-                        self.box.pack_start(self.togglebut, True, True, 0)
-                        self.currentpage.add(self.row)
+                        #adds page to gui 
+                        self.notebook.add_page_gui(self.gui_notebook, self.pagename)
                         
-                        self.notebook_layout.set_current_page(0) 
-                        self.currentpage.show_all()
                         self.notebook_layout.show_all()
 
 		self.popup.destroy()
