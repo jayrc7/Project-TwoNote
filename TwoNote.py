@@ -34,6 +34,8 @@ class MainWindow(Gtk.ApplicationWindow):
                 self.pagename = None
                 self.notebook = None
                 self.page = None
+                self.currentpage = None
+                self.currentpagenum = None
 
                 
 		# men button on right
@@ -45,19 +47,9 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.pack_start(self.menuButton)
         	
 		## left vbox for notebook name 
-		self.vboxLeft = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
+		self.vboxLeft = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 20)
 		self.vboxLeft.set_homogeneous(False)
                 self.notebook_layout = Gtk.Notebook()
-
-                #notebook tab
-                self.tab1 = Gtk.Box()
-                self.tab1.set_border_width(10)
-                self.tab2 = Gtk.Box()
-                self.tab2.set_border_width(10)
-                
-                self.notebook_layout.append_page(self.tab1, Gtk.Label("hey"))
-                self.notebook_layout.append_page(self.tab2, Gtk.Label("yo"))
-
 
                 #adds notebook
                 self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
@@ -212,8 +204,29 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.page = tree.BinaryTree.Page(self.pagename)
                         self.notebook.add(self.page)
                         self.count = self.count + 1
-                        #self.notebook_layout.append_page(self.tab1, Gtk.Label(self.notebookname))
-                        self.notebook_layout.insert_page(Gtk.Box(), Gtk.Label(self.notebookname), -1)
+
+                        ##adds notebook to gui
+                        self.page_container = Gtk.MenuBar()
+
+                        self.notebook_layout.insert_page(self.page_container, Gtk.Label(self.notebookname), -1)
+
+
+                        ## adds page to gui
+                        self.notebook_layout.set_current_page(-1)
+                        self.currentpagenum = self.notebook_layout.get_current_page()
+                        self.currentpage = self.notebook_layout.get_nth_page(self.currentpagenum)
+
+                        self.togglebut = Gtk.MenuItem.new_with_label(self.pagename)
+                        self.togglebut2 = Gtk.Button(label = self.pagename)
+
+                        self.currentpage.add(self.togglebut)
+                        self.currentpage.show_all()
+
+
+                        
+
+                    
+                        self.notebook_layout.show_all()
 
 		self.popup.destroy()
 	
@@ -245,6 +258,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.leftFrame.set_vexpand(True)
 
                 self.grid.attach(self.leftFrame,0,0,2,30)
+
 
 
 
