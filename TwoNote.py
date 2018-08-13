@@ -19,10 +19,12 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
                 
-                self.count = 0
 
                 #keeps track of notebooks
                 self.notebook_list = []
+
+                #keeps track of buttons
+                self.notebook_buttons = []
 
 		'''
 		when app opens, have it open up first notebook using page open method and first page that comes with it
@@ -193,9 +195,6 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.notebook.add_page_gui(self.gui_notebook, self.pagename)
 
                         self.notebook_layout.show_all()
-                        self.count = self.count + 1
-                        if(self.count is 3):
-                            self.notebook.notebook_iterator()
 
 
 
@@ -217,9 +216,6 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.page = tree.BinaryTree.Page(self.pagename)
                         self.notebook.add(self.page)
                         self.notebook_list.append(self.notebook)
-                        self.count = self.count + 1
-                        if(self.count is 3):
-                            self.notebook.notebook_iterator()
                         
                         #adds notebook to gui
                         self.notebook.add_notebook_gui(self.notebook_layout, self.notebookname)
