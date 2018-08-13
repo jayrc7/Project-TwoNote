@@ -79,7 +79,7 @@ class BinaryTree:
             return "[]"
         
         pages = []
-        iterator = BinaryTree.Iterator(self)
+        iterator = BinaryTree.Iterator(self, self.tree)
 
         for i in range(self.size):
             pages.append(iterator.next())
