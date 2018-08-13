@@ -204,28 +204,27 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.page = tree.BinaryTree.Page(self.pagename)
                         self.notebook.add(self.page)
                         self.count = self.count + 1
+                        self.notebook_list.append(self.notebookname)
 
                         ##adds notebook to gui
-                        self.page_container = Gtk.MenuBar()
-
-                        self.notebook_layout.insert_page(self.page_container, Gtk.Label(self.notebookname), -1)
+                        self.notebook_layout.insert_page(Gtk.ListBox(), Gtk.Label(self.notebookname), -1)
 
 
-                        ## adds page to gui
-                        self.notebook_layout.set_current_page(-1)
+                        ##makes new notebook current notebook 
+                        self.notebook_layout.set_current_page(len(self.notebook_list) - 1)
                         self.currentpagenum = self.notebook_layout.get_current_page()
                         self.currentpage = self.notebook_layout.get_nth_page(self.currentpagenum)
-
-                        self.togglebut = Gtk.MenuItem.new_with_label(self.pagename)
-                        self.togglebut2 = Gtk.Button(label = self.pagename)
-
-                        self.currentpage.add(self.togglebut)
-                        self.currentpage.show_all()
-
-
                         
-
-                    
+                        #adds first page onto gui
+                        self.row = Gtk.ListBoxRow()
+                        self.togglebut = Gtk.ToggleButton(label = self.pagename)
+                        self.box = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 100)
+                        self.row.add(self.box)
+                        self.box.pack_start(self.togglebut, True, True, 0)
+                        self.currentpage.add(self.row)
+                        
+                        self.notebook_layout.set_current_page(0) 
+                        self.currentpage.show_all()
                         self.notebook_layout.show_all()
 
 		self.popup.destroy()
