@@ -3,6 +3,8 @@ import TextSet as text_set
 import Popup as pop
 import Menu_Button as menu_button
 import sidebar_menu as sidebar
+import Notebook as note
+import BinaryTree as tree
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
 
@@ -17,10 +19,22 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
 
+                #used to test print pages
+                self.count = 0
+
+                #keeps track of notebooks
+                self.notebook_list = []
+
 		'''
 		when app opens, have it open up first notebook using page open method and first page that comes with it
 		edge case: if no notebooks then ask the user to create their first one and first page 
 		'''
+                ## current notebook instance variable
+                self.notebookname = None
+                self.pagename = None
+                self.notebook = None
+                self.page = None
+
                 
 		# men button on right
 		self.menuButton = Gtk.MenuButton()
@@ -33,12 +47,31 @@ class MainWindow(Gtk.ApplicationWindow):
 		## left vbox for notebook name 
 		self.vboxLeft = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
 		self.vboxLeft.set_homogeneous(False)
+                self.notebook_layout = Gtk.Notebook()
+
+                #notebook tab
+                self.tab1 = Gtk.Box()
+                self.tab1.set_border_width(10)
+                self.tab2 = Gtk.Box()
+                self.tab2.set_border_width(10)
+                
+                self.notebook_layout.append_page(self.tab1, Gtk.Label("hey"))
+                self.notebook_layout.append_page(self.tab2, Gtk.Label("yo"))
+
+
+                #adds notebook
+                self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
+                self.vboxLeft.pack_start(self.notebook_layout, True, True, 0)
+
 
 		## frame for left vbox
-		self.leftFrame = sidebar.SidebarWindow()
+	       	#self.leftFrame = sidebar.SidebarWindow()
+                self.leftFrame = Gtk.Frame()
+                self.leftFrame.add(self.vboxLeft)
 		self.leftFrame.set_hexpand(True)
 		self.leftFrame.set_vexpand(True)
 		
+                #buttons for toolbar
 		self.button_bold = Gtk.ToggleToolButton()
 		self.button_italic = Gtk.ToggleToolButton()
 		self.button_underline = Gtk.ToggleToolButton()
@@ -144,14 +177,18 @@ class MainWindow(Gtk.ApplicationWindow):
 		'''
 		
 	def new_clicked(self,  action, none):
-		## will be used to retrieve input (pretty sure dialog has functionality to wait before closing so it can append input onto list
-		self.name = None
-		self.popup = pop.PopUp(self, self.name, True)
+		self.popup = pop.PopUp(self, True)
 		self.response = self.popup.run()
 
 		if(self.response == Gtk.ResponseType.OK):
 			## save before doing next step 
 			self.buff.set_text("")   ##method can be placed inside page constructor 
+                        self.pagename = self.popup.entry.get_text()
+                        self.page = tree.BinaryTree.Page(self.pagename)
+                        self.notebook.add(self.page)
+                        self.count = self.count + 1
+                        if(self.count is 3):
+                            self.notebook.list_pages()
 			## get name of notebook (def notebook_name)
 			## add to notebook object (notebook.add(name of page))
 			## update gui
@@ -162,17 +199,23 @@ class MainWindow(Gtk.ApplicationWindow):
    
 
 	def new_book_clicked(self, action, none):
-		# will be used to retrieve input
-		self.name= []
 
-		self.popup = pop.PopUp(self, self.name,  False) 
+		self.popup = pop.PopUp(self, False) 
 		self.response = self.popup.run()
 
 		if(self.response == Gtk.ResponseType.OK):
 			#save current work (new notebook will clear textview)
 			self.buff.set_text("")
+                        self.notebookname = self.popup.entry.get_text()
+                        self.notebook = note.Notebook(self.notebookname)
+                        self.pagename = self.popup.entry2.get_text()
+                        self.page = tree.BinaryTree.Page(self.pagename)
+                        self.notebook.add(self.page)
+                        self.count = self.count + 1
+                        #self.notebook_layout.append_page(self.tab1, Gtk.Label(self.notebookname))
+                        self.notebook_layout.insert_page(Gtk.Box(), Gtk.Label(self.notebookname), -1)
+
 		self.popup.destroy()
-			#Create new notebook object by name and first page (notebook 
 	
 
 	def save_clicked(self, action, none):
@@ -183,10 +226,31 @@ class MainWindow(Gtk.ApplicationWindow):
     
 	def settings_clicked(self, action, none):
 		print("settings")
-
-
         
-		
+        def update_gui(self):
+            	## left vbox for notebook name 
+		self.vboxLeft = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
+		self.vboxLeft.set_homogeneous(False)
+                self.notebook_layout = Gtk.Notebook()
+
+                #notebook tab
+                self.tab1 = Gtk.Box()
+                self.tab1.set_border_width(10)
+                for i in range(len(self.notebook_list)):
+                    self.notebook_layout.append_page(self.tab1, Gtk.Label(self.notebook_list[i]))
+
+                self.leftFrame = Gtk.Frame()
+                self.leftFrame.add(self.vboxLeft)
+		self.leftFrame.set_hexpand(True)
+		self.leftFrame.set_vexpand(True)
+
+                self.grid.attach(self.leftFrame,0,0,2,30)
+
+
+
+
+
+	
 		  
 
 	
