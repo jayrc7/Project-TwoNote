@@ -5,7 +5,7 @@ from gi.repository import Gtk, Gio
 class NoteMenu(Gio.Menu):
 	def __init__(self):
 		Gio.Menu.__init__(self)
-		self.new_item = Gio.MenuItem.new('New', 'win.new')
+		self.new_item = Gio.MenuItem.new('New Page', 'win.new')
 		self.new_book_item = Gio.MenuItem.new('New Notebook', 'win.new_notebook')
 		self.open_item = Gio.MenuItem.new('Open', 'win.open')
 		self.save_item = Gio.MenuItem.new('Save', 'win.save')
