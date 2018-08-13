@@ -44,6 +44,8 @@ class Notebook:
     def add_page_gui(self, page, name):
         row = Gtk.ListBoxRow()
         toggleButton = Gtk.ToggleButton(label = name)
+
+        toggleButton.set_active(True)
         box = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 100)
         row.add(box)
         box.pack_start(toggleButton, True, True, 0)
