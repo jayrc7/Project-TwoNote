@@ -7,6 +7,8 @@ import Notebook as note
 import BinaryTree as tree
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gio
+import threading
+import time
 
 class MainWindow(Gtk.ApplicationWindow):
 	def __init__(self):
@@ -18,6 +20,13 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.set_show_close_button(True)
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
+
+                self.thread = threading.Thread(target = self.run, args = ())
+                self.thread.daemon = True
+                self.thread.start()
+
+
+                self.thread_bool = True
                 
 
                 #keeps track of notebooks
@@ -203,7 +212,6 @@ class MainWindow(Gtk.ApplicationWindow):
    
 
 	def new_book_clicked(self, action, none):
-
 		self.popup = pop.PopUp(self, False) 
 		self.response = self.popup.run()
 
@@ -240,28 +248,12 @@ class MainWindow(Gtk.ApplicationWindow):
 	def settings_clicked(self, action, none):
 		print("settings")
         
-        def update_gui(self):
-            	## left vbox for notebook name 
-		self.vboxLeft = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 20)
-		self.vboxLeft.set_homogeneous(False)
-                self.notebook_layout = Gtk.Notebook()
+        def run(self):
+                while self.thread:
+                    print("do domething")
+                    self.thread = False
 
-                #notebook tab
-                self.tab1 = Gtk.Box()
-                self.tab1.set_border_width(10)
-                for i in range(len(self.notebook_list)):
-                    self.notebook_layout.append_page(self.tab1, Gtk.Label(self.notebook_list[i]))
-
-                self.leftFrame = Gtk.Frame()
-                self.leftFrame.add(self.vboxLeft)
-		self.leftFrame.set_hexpand(True)
-		self.leftFrame.set_vexpand(True)
-
-                self.grid.attach(self.leftFrame,0,0,2,30)
-
-
-
-
+                
 
 
 	
