@@ -12,6 +12,8 @@ class TextSet(Gtk.TextView):
 		self.set_indent(10)
 		self.set_top_margin(90)
 		self.set_left_margin(20)
+                self.set_right_margin(20)
+                self.set_wrap_mode(Gtk.WrapMode.CHAR)
 		self.tb = TextBuffer()
 		self.set_buffer(self.tb)
     	# Thread setup

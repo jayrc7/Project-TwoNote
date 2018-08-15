@@ -21,24 +21,18 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
 
-                self.thread = threading.Thread(target = self.run, args = ())
-                self.thread.daemon = True
-                self.thread.start()
-
-
-                self.thread_bool = True
-                
-
                 #keeps track of notebooks
                 self.notebook_list = []
 
                 #keeps track of buttons
                 self.notebook_buttons = []
 
-		'''
-		when app opens, have it open up first notebook using page open method and first page that comes with it
-		edge case: if no notebooks then ask the user to create their first one and first page 
-		'''
+                '''
+                set character limit on page
+                make delete and remove buttons work
+                made thread work activate one at a time
+                '''
+                
                 ## current notebook instance variable
                 self.notebookname = None
                 self.pagename = None
@@ -50,32 +44,57 @@ class MainWindow(Gtk.ApplicationWindow):
                 #for gui
                 self.gui_notebook = None
 
-                
 		# men button on right
 		self.menuButton = Gtk.MenuButton()
+
 		# drop menu
 		self.menu = menu_button.NoteMenu()
 		self.menuButton.set_menu_model(self.menu)
     
 		self.header.pack_start(self.menuButton)
         	
+                #grid to hold everything on the side menu
+                self.menu_grid = Gtk.Grid()
+                self.menu_grid.set_hexpand(True)
+
 		## left vbox for notebook name 
-		self.vboxLeft = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 20)
-		self.vboxLeft.set_homogeneous(False)
+		self.hboxLeft = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+                #self.gridLeft = Gtk.Grid()
+		self.hboxLeft.set_homogeneous(False)
                 self.notebook_layout = Gtk.Notebook()
+                self.hboxLeft.set_property("width-request", 20)
+                self.hboxLeft.set_hexpand(True)
 
                 #adds notebook
                 self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
-                self.vboxLeft.pack_start(self.notebook_layout, True, True, 0)
+                
+                #sidebar buttons
+                self.rename_button = Gtk.Button(label = "R")
+                self.delete_button = Gtk.Button(label = "D")
+                
+                #adds notebook to vbox
+                self.hboxLeft.pack_start(self.notebook_layout, True, True, 0)
 
+                #creates hbox for rename notebook and delete button
+                self.buttons_Left = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+                self.rename_button.set_property("width-request", 20)
+                self.delete_button.set_property("width-request", 20)
+                self.buttons_Left.pack_start(self.rename_button, False, True, 0)
+                self.buttons_Left.pack_start(self.delete_button, False, True, 0)
+                
 
 		## frame for left vbox
 	       	#self.leftFrame = sidebar.SidebarWindow()
                 self.leftFrame = Gtk.Frame()
-                self.leftFrame.add(self.vboxLeft)
+                self.leftFrame.add(self.hboxLeft)
 		self.leftFrame.set_hexpand(True)
 		self.leftFrame.set_vexpand(True)
-		
+                self.leftFrame.set_property("width-request", 50)
+
+                #adds frame and buttons to side bar
+                self.menu_grid.attach(self.leftFrame, 0, 0, 2, 1)
+                self.menu_grid.attach_next_to(self.buttons_Left, self.leftFrame, Gtk.PositionType.BOTTOM, 2, 2)
+
                 #buttons for toolbar
 		self.button_bold = Gtk.ToggleToolButton()
 		self.button_italic = Gtk.ToggleToolButton()
@@ -98,21 +117,16 @@ class MainWindow(Gtk.ApplicationWindow):
 
 		# creates grid and adds frames
 		self.grid = Gtk.Grid()
-		self.grid.attach(self.leftFrame,0,0,2,30)
+		self.grid.attach(self.menu_grid,0,0,1,30)
 		self.toolbar = Gtk.Toolbar()
-		self.grid.attach(self.toolbar, 3, 0, 5, 1)
-		self.grid.attach_next_to(self.rightFrame, self.leftFrame, Gtk.PositionType.RIGHT, 7,30)
-		
-		 
+		self.grid.attach(self.toolbar, 2, 0, 5, 1)
+		self.grid.attach_next_to(self.rightFrame, self.menu_grid, Gtk.PositionType.RIGHT, 7,30)
 		
 		self.button_bold.set_icon_name("format-text-bold-symbolic")
 		self.toolbar.insert(self.button_bold, 0)
 
-		
 		self.button_italic.set_icon_name("format-text-italic-symbolic")
 		self.toolbar.insert(self.button_italic, 1)
-
-		
 
 		self.button_underline.set_icon_name("format-text-underline-symbolic")
 		self.toolbar.insert(self.button_underline, 2)
@@ -121,11 +135,7 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.button_italic.connect("toggled", self.mytext.on_button_clicked, "Italic", self.button_bold, self.button_underline)
 		self.button_underline.connect("toggled", self.mytext.on_button_clicked, "Underline", self.button_bold, self.button_italic)
 
-      
-
-
 		self.add(self.grid)
-
 
 		# Create a box of linked items
 		self.box = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
@@ -165,29 +175,26 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.settings_action.connect("activate", self.settings_clicked)
 		self.add_action(self.settings_action)
 		self.connect('destroy', Gtk.main_quit)
-		self.show_all()  
-		
+		self.show_all()
+
+
+                self.thread = threading.Thread(target = self.run, args = ())
+                self.thread.daemon = True
+                self.thread_bool = True
+
+                self.thread.start()
+
+                if(len(self.notebook_list) == 0):
+                    self.new_book()
+
+                
+
+
+
 		
 	def open_clicked(self, action, none):
 		menu_button.open_file(self, self.mytext)
-	
-
         
-
-
-		'''
-		binary search tree will be used to create notebook (tree itself will be notebook and first node is the first page)
-		pro of binary tree is opening pages will take less time compared to any other data structure 
-		nodes will be sorted by alphabetical order
-		'''
-	
-
-
-        '''
-        when clicked, notebook section and page has to stay active until another one is clicked
-        when the user clicks another, it should open the file for them and apply it to textview
-        look into list of buttons
-        '''
 	def new_clicked(self,  action, none):
 		self.popup = pop.PopUp(self, True)
 		self.response = self.popup.run()
@@ -205,17 +212,16 @@ class MainWindow(Gtk.ApplicationWindow):
 
                         self.notebook_layout.show_all()
 
-
-
 		self.popup.destroy()  
 			
-   
-
 	def new_book_clicked(self, action, none):
-		self.popup = pop.PopUp(self, False) 
-		self.response = self.popup.run()
+                self.new_book()
 
-		if(self.response == Gtk.ResponseType.OK):
+        def new_book(self):
+                    self.popup = pop.PopUp(self, False) 
+		    self.response = self.popup.run()
+
+		    if(self.response == Gtk.ResponseType.OK):
 			#save current work (new notebook will clear textview)
 			self.buff.set_text("")
                         self.notebookname = self.popup.entry.get_text()
@@ -236,7 +242,7 @@ class MainWindow(Gtk.ApplicationWindow):
                         
                         self.notebook_layout.show_all()
 
-		self.popup.destroy()
+		    self.popup.destroy()
 	
 
 	def save_clicked(self, action, none):
@@ -253,14 +259,7 @@ class MainWindow(Gtk.ApplicationWindow):
                     print("do domething")
                     self.thread = False
 
-                
-
-
 	
-		  
-
-	
-
 if __name__ == '__main__':
     win = MainWindow()
     Gtk.main()
