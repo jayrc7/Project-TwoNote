@@ -5,7 +5,7 @@ from gi.repository import Gtk
 
 class PopUp(Gtk.Dialog):
         
-        def __init__(self, parent, text, boolean):
+        def __init__(self, parent,boolean):
                 
                 if(boolean == True):
                     name = "New Page"
