@@ -9,6 +9,7 @@ class Notebook:
         self.NotebookName = string
         self.tree = btree.BinaryTree()
         self.pages = []
+        self.buttons = []
             
     def add(self,page):
         self.tree.insert(page)
@@ -33,7 +34,7 @@ class Notebook:
             print(self.iterator.next())
 
     
-    ##makes newly made notebook tab to current 
+    ##makes newly made notebook tab to current and returns listbox(page)
     def set_current_section(self, layout):
         layout.set_current_page(-1)
         current = layout.get_current_page()
@@ -43,6 +44,7 @@ class Notebook:
     def add_page_gui(self, page, name):
         row = Gtk.ListBoxRow()
         toggleButton = Gtk.ToggleButton(label = name)
+        self.buttons.append(toggleButton)
 
         toggleButton.set_active(True)
         box = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 100)
@@ -50,8 +52,31 @@ class Notebook:
         box.pack_start(toggleButton, True, True, 0)
         page.add(row)
 
-    def get_current_section(self, layout):
+    #returns listbox(page),not notebook tab
+    def get_current_page(self, layout):
         return layout.get_nth_page(layout.get_current_page())
+
+    def set_name(self, name):
+        self.NotebookName = name
+
+    def get_name(self):
+        return self.NotebookName
+
+    def get_Children(self):
+        return self.pages
+
+    def get_child_at_index(num):
+        return pages[num]
+    
+    def set_page_name(self, previous_name, new_name):
+        for i in range(len(self.pages)):
+            if(self.pages[i] == previous_name):
+                widget = self.buttons[i]
+                widget.set_label(new_name)
+
+
+
+    #def set_button(self, layout):
 
         
     

@@ -21,28 +21,30 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.header.props.title = "TwoNote"
 		self.set_titlebar(self.header)
 
-		#keeps track of notebooks
-		self.notebook_list = []
+                #keeps track of notebooks
+                self.notebook_list = []
 
-		#keeps track of buttons
-		self.notebook_buttons = []
+                #keeps track of buttons
+                self.notebook_buttons = []
 
-		'''
-		set character limit on page
-		make delete and remove buttons work
-		made thread work activate one at a time
-		'''
+                '''
+                make delete and rename buttons work
+                made thread work activate one at a time
+                incorporate set button method in binary tree
+                notebook and page names cannot be the same
+                '''
                 
-		## current notebook instance variable
-		self.notebookname = None
-		self.pagename = None
+                ## current notebook instance variable
+                self.notebookname = None
+                self.pagename = None
                 
-		#for binary trees
-		self.notebook = None
-		self.page = None
+                #for binary trees
+                self.notebook = None
+                self.page = None
 
-		#for gui
-		self.gui_notebook = None
+                #for gui
+                self.gui_notebook_page = None  #returns page (content) not tab 
+                self.current_button  = None #rep
 
 		# men button on right
 		self.menuButton = Gtk.MenuButton()
@@ -53,49 +55,51 @@ class MainWindow(Gtk.ApplicationWindow):
     
 		self.header.pack_start(self.menuButton)
         	
-		#grid to hold everything on the side menu
-		self.menu_grid = Gtk.Grid()
-		self.menu_grid.set_hexpand(True)
+                #grid to hold everything on the side menu
+                self.menu_grid = Gtk.Grid()
+                self.menu_grid.set_hexpand(True)
 
 		## left vbox for notebook name 
 		self.hboxLeft = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
-		#self.gridLeft = Gtk.Grid()
+                #self.gridLeft = Gtk.Grid()
 		self.hboxLeft.set_homogeneous(False)
-		self.notebook_layout = Gtk.Notebook()
-		self.hboxLeft.set_property("width-request", 20)
-		self.hboxLeft.set_hexpand(True)
+                self.notebook_layout = Gtk.Notebook()
+                self.hboxLeft.set_property("width-request", 20)
+                self.hboxLeft.set_hexpand(True)
 
-		#adds notebook
-		self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
+                #adds notebook
+                self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
                 
-		#sidebar buttons
-		self.rename_button = Gtk.Button(label = "R")
-		self.delete_button = Gtk.Button(label = "D")
+                #sidebar buttons
+                self.rename_button = Gtk.Button(label = "R")
+                self.delete_button = Gtk.Button(label = "D")
+                self.rename_button.connect("clicked", self.rename)
+                self.delete_button.connect("clicked", self.delete)
                 
-		#adds notebook to vbox
-		self.hboxLeft.pack_start(self.notebook_layout, True, True, 0)
+                #adds notebook to vbox
+                self.hboxLeft.pack_start(self.notebook_layout, True, True, 0)
 
-		#creates hbox for rename notebook and delete button
-		self.buttons_Left = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
-		self.rename_button.set_property("width-request", 20)
-		self.delete_button.set_property("width-request", 20)
-		self.buttons_Left.pack_start(self.rename_button, False, True, 0)
-		self.buttons_Left.pack_start(self.delete_button, False, True, 0)
+                #creates hbox for rename notebook and delete button
+                self.buttons_Left = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL)
+                self.rename_button.set_property("width-request", 20)
+                self.delete_button.set_property("width-request", 20)
+                self.buttons_Left.pack_start(self.rename_button, False, True, 0)
+                self.buttons_Left.pack_start(self.delete_button, False, True, 0)
                 
 
 		## frame for left vbox
-		#self.leftFrame = sidebar.SidebarWindow()
-		self.leftFrame = Gtk.Frame()
-		self.leftFrame.add(self.hboxLeft)
+	       	#self.leftFrame = sidebar.SidebarWindow()
+                self.leftFrame = Gtk.Frame()
+                self.leftFrame.add(self.hboxLeft)
 		self.leftFrame.set_hexpand(True)
 		self.leftFrame.set_vexpand(True)
-		self.leftFrame.set_property("width-request", 50)
+                self.leftFrame.set_property("width-request", 50)
 
-		#adds frame and buttons to side bar
-		self.menu_grid.attach(self.leftFrame, 0, 0, 2, 1)
-		self.menu_grid.attach_next_to(self.buttons_Left, self.leftFrame, Gtk.PositionType.BOTTOM, 2, 2)
+                #adds frame and buttons to side bar
+                self.menu_grid.attach(self.leftFrame, 0, 0, 2, 1)
+                self.menu_grid.attach_next_to(self.buttons_Left, self.leftFrame, Gtk.PositionType.BOTTOM, 2, 2)
 
-		#buttons for toolbar
+                #buttons for toolbar
 		self.button_bold = Gtk.ToggleToolButton()
 		self.button_italic = Gtk.ToggleToolButton()
 		self.button_underline = Gtk.ToggleToolButton()
@@ -178,14 +182,14 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.show_all()
 
 
-		self.thread = threading.Thread(target = self.run, args = ())
-		self.thread.daemon = True
-		self.thread_bool = True
+                self.thread = threading.Thread(target = self.run, args = ())
+                self.thread.daemon = True
+                self.thread_bool = True
 
-		self.thread.start()
+                self.thread.start()
 
-		if(len(self.notebook_list) == 0):
-			self.new_book()
+                if(len(self.notebook_list) == 0):
+                    self.new_book()
 
                 
 
@@ -202,44 +206,87 @@ class MainWindow(Gtk.ApplicationWindow):
 		if(self.response == Gtk.ResponseType.OK):
 			## save before doing next step 
 			self.buff.set_text("")   ##method can be placed inside page constructor 
-			self.pagename = self.popup.entry.get_text()
-			self.page = tree.BinaryTree.Page(self.pagename)
-			self.notebook.add(self.page)
+                        self.pagename = self.popup.entry.get_text()
+                        self.page = tree.BinaryTree.Page(self.pagename)
+                        self.notebook.add(self.page)
 
 			## update gui
-			self.gui_notebook = self.notebook.get_current_section(self.notebook_layout)
-			self.notebook.add_page_gui(self.gui_notebook, self.pagename)
-			self.notebook_layout.show_all()
+                        self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+                        self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+
+                        self.notebook_layout.show_all()
 
 		self.popup.destroy()  
 			
 	def new_book_clicked(self, action, none):
-		self.new_book()
+                self.new_book()
 
-	def new_book(self):
-		self.popup = pop.PopUp(self, False) 
-		self.response = self.popup.run()
-		if(self.response == Gtk.ResponseType.OK):
+        def new_book(self):
+                    self.popup = pop.PopUp(self, False) 
+		    self.response = self.popup.run()
+
+		    if(self.response == Gtk.ResponseType.OK):
 			#save current work (new notebook will clear textview)
 			self.buff.set_text("")
-			self.notebookname = self.popup.entry.get_text()
-			self.notebook = note.Notebook(self.notebookname)
-			self.pagename = self.popup.entry2.get_text()
-			self.page = tree.BinaryTree.Page(self.pagename)
-			self.notebook.add(self.page)
-			self.notebook_list.append(self.notebook)
+                        self.notebookname = self.popup.entry.get_text()
+                        self.notebook = note.Notebook(self.notebookname)
+                        self.pagename = self.popup.entry2.get_text()
+                        self.page = tree.BinaryTree.Page(self.pagename)
+                        self.notebook.add(self.page)
+                        self.notebook_list.append(self.notebook)
                         
-			#adds notebook to gui
-			self.notebook.add_notebook_gui(self.notebook_layout, self.notebookname)
+                        #adds notebook to gui
+                        self.notebook.add_notebook_gui(self.notebook_layout, self.notebookname)
 
-			##makes new notebook current notebook 
-			self.gui_notebook = self.notebook.set_current_section(self.notebook_layout)
+                        ##makes new page current page
+                        self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
                         
-			#adds page to gui 
-			self.notebook.add_page_gui(self.gui_notebook, self.pagename)
+                        #adds page to gui 
+                        self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
                         
-			self.notebook_layout.show_all()
-		self.popup.destroy()
+                        self.notebook_layout.show_all()
+
+		    self.popup.destroy()
+
+        def rename(self, signal):
+                self.rename_pop = pop.Rename(self, self.notebookname, self.pagename)
+                self.response = self.rename_pop.run()
+                
+                if(self.response == Gtk.ResponseType.OK):
+                    temp = self.pagename
+
+                    #changes name instance variables
+                    self.notebookname = self.rename_pop.entry_notebook.get_text()
+                    self.pagename = self.rename_pop.entry_page.get_text()
+                    
+                    #updates binary tree name and page name
+                    self.notebook.set_name(self.notebookname)
+                    self.page.set_name(self.pagename)
+
+                    #updates notebook tab gui
+                    self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+                    label = Gtk.Label(self.notebookname)
+                    self.notebook_layout.set_tab_label(self.gui_notebook_page, label)
+                    
+                    #updates notebook page
+                    self.notebook.set_page_name(temp, self.pagename)
+                    
+                self.rename_pop.destroy()
+
+        def delete(self, signal):
+                self.delete_pop = pop.Delete(self, self.notebook, self.notebookname)
+                self.response = self.delete_pop.run()
+
+
+
+                    
+
+
+
+
+
+
+                self.delete_pop.destroy()
 	
 
 	def save_clicked(self, action, none):
@@ -251,13 +298,14 @@ class MainWindow(Gtk.ApplicationWindow):
 	def settings_clicked(self, action, none):
 		print("settings")
         
-	def run(self):
-		while self.thread:
-			print("do domething")
-			self.thread = False
+        def run(self):
+                while self.thread:
+                    print("do domething")
+                    self.thread = False
 
 	
 if __name__ == '__main__':
     win = MainWindow()
     Gtk.main()
+
 
