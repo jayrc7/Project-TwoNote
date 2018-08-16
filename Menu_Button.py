@@ -84,8 +84,7 @@ def open_file(window, widget):
 			print("Cancel clicked")
 			open_dialog.destroy()
 
-def save_file(window, widget):TwoNote
-		print('saveButton clicked')
+def save_file(window, widget):
 		savechooser = Gtk.FileChooserDialog('Save File', window, Gtk.FileChooserAction.SAVE, (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
 		allfilter = Gtk.FileFilter()
 		allfilter.set_name('All files')
