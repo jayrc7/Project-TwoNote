@@ -11,10 +11,10 @@ class BinaryTree:
             self.leftChild = None
             self.rightChild = None
     
-        def get(self):
+        def get_name(self):
             return self.val
     
-        def set(self, val):
+        def set_name(self, val):
             self.val = val
         
         def getChildren(self):

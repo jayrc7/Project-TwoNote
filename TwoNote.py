@@ -28,9 +28,10 @@ class MainWindow(Gtk.ApplicationWindow):
                 self.notebook_buttons = []
 
                 '''
-                set character limit on page
-                make delete and remove buttons work
+                make delete and rename buttons work
                 made thread work activate one at a time
+                incorporate set button method in binary tree
+                notebook and page names cannot be the same
                 '''
                 
                 ## current notebook instance variable
@@ -42,7 +43,8 @@ class MainWindow(Gtk.ApplicationWindow):
                 self.page = None
 
                 #for gui
-                self.gui_notebook = None
+                self.gui_notebook_page = None  #returns page (content) not tab 
+                self.current_button  = None #rep
 
 		# men button on right
 		self.menuButton = Gtk.MenuButton()
@@ -71,6 +73,8 @@ class MainWindow(Gtk.ApplicationWindow):
                 #sidebar buttons
                 self.rename_button = Gtk.Button(label = "R")
                 self.delete_button = Gtk.Button(label = "D")
+                self.rename_button.connect("clicked", self.rename)
+                self.delete_button.connect("clicked", self.delete)
                 
                 #adds notebook to vbox
                 self.hboxLeft.pack_start(self.notebook_layout, True, True, 0)
@@ -207,8 +211,8 @@ class MainWindow(Gtk.ApplicationWindow):
                         self.notebook.add(self.page)
 
 			## update gui
-                        self.gui_notebook = self.notebook.get_current_section(self.notebook_layout)
-                        self.notebook.add_page_gui(self.gui_notebook, self.pagename)
+                        self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+                        self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
 
                         self.notebook_layout.show_all()
 
@@ -234,15 +238,55 @@ class MainWindow(Gtk.ApplicationWindow):
                         #adds notebook to gui
                         self.notebook.add_notebook_gui(self.notebook_layout, self.notebookname)
 
-                        ##makes new notebook current notebook 
-                        self.gui_notebook = self.notebook.set_current_section(self.notebook_layout)
+                        ##makes new page current page
+                        self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
                         
                         #adds page to gui 
-                        self.notebook.add_page_gui(self.gui_notebook, self.pagename)
+                        self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
                         
                         self.notebook_layout.show_all()
 
 		    self.popup.destroy()
+
+        def rename(self, signal):
+                self.rename_pop = pop.Rename(self, self.notebookname, self.pagename)
+                self.response = self.rename_pop.run()
+                
+                if(self.response == Gtk.ResponseType.OK):
+                    temp = self.pagename
+
+                    #changes name instance variables
+                    self.notebookname = self.rename_pop.entry_notebook.get_text()
+                    self.pagename = self.rename_pop.entry_page.get_text()
+                    
+                    #updates binary tree name and page name
+                    self.notebook.set_name(self.notebookname)
+                    self.page.set_name(self.pagename)
+
+                    #updates notebook tab gui
+                    self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+                    label = Gtk.Label(self.notebookname)
+                    self.notebook_layout.set_tab_label(self.gui_notebook_page, label)
+                    
+                    #updates notebook page
+                    self.notebook.set_page_name(temp, self.pagename)
+                    
+                self.rename_pop.destroy()
+
+        def delete(self, signal):
+                self.delete_pop = pop.Delete(self, self.notebook, self.notebookname)
+                self.response = self.delete_pop.run()
+
+
+
+                    
+
+
+
+
+
+
+                self.delete_pop.destroy()
 	
 
 	def save_clicked(self, action, none):
