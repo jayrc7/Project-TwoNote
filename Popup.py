@@ -71,7 +71,7 @@ class Rename(Gtk.Dialog):
         area.show_all()
 
 class Delete(Gtk.Dialog):
-    def __init__(self, parent, notebook, name):
+    def __init__(self, parent, notebook, name, pagename):
             
         Gtk.Dialog.__init__(self, "Delete", parent, Gtk.DialogFlags.MODAL, (
             "Cancel", Gtk.ResponseType.CANCEL, 
@@ -88,23 +88,6 @@ class Delete(Gtk.Dialog):
         self.grid.set_column_spacing(60)
           
         self.check_buttons = []
-        
-        ''' 
-        self.box = Gtk.ListBox()
-        self.box.set_selection_mode(Gtk.SelectionMode.NONE)
-        for i in range(len(notebook.pages)):
-           row = Gtk.ListBoxRow()
-           print(notebook.pages[i])
-           box = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing = 100)
-           row.add(box)
-           label = Gtk.Label(notebook.pages[i])
-           self.page_button = Gtk.CheckButton()
-           self.check_buttons.append(self.page_button)
-           box.pack_start(label, True, True, 0)
-           box.pack_start(self.page_button, True, True, 0)
-           self.box.add(row)
-           self.box.show_all()
-        '''
 
         self.box1 = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 10)
         self.box2 = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
@@ -123,9 +106,13 @@ class Delete(Gtk.Dialog):
 
            self.button = Gtk.CheckButton()
            self.check_buttons.append(self.button)
+           if(label.get_text() == pagename):
+              self.button.set_active(True)
            self.box2.pack_start(self.button, True, True, 0)
 
-        label = Gtk.Label('Selecting "OK" Without Checking Any Boxes Will Only Delete Current Page. \n Deleting Notebook Will Delete Pages as Well.')
+      
+
+        label = Gtk.Label('Deleting Notebook Will Delete Pages as Well.')
         self.grid.attach(self.box1, 2, 2, 2, 2)
         self.grid.attach_next_to(self.box2, self.box1, Gtk.PositionType.RIGHT, 2, 2)
         self.grid.attach_next_to(label, self.box2, Gtk.PositionType.BOTTOM, 2, 2)
@@ -134,6 +121,32 @@ class Delete(Gtk.Dialog):
         area.add(self.grid)
         area.show_all()
 
+class Duplicate(Gtk.Dialog):
+    def __init__(self, parent, boolean):
+        Gtk.Dialog.__init__(self, "Duplicate Found", parent, Gtk.DialogFlags.MODAL, (
+           Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        self.set_default_size(200, 100)
+        self.set_border_width(30)
+
+        area = self.get_content_area()
+
+        name = None
+        if(boolean):
+           name = "Page cannot be duplicated."
+         
+        else:
+           name = "Notebook cannot be duplicated."
+
+        self.label = Gtk.Label(name)
+
+        area.add(self.label)
+
+
+        area.show_all()
+
+
+      
                 
 
 

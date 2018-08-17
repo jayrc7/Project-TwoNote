@@ -51,13 +51,14 @@ class Notebook:
         row.add(box)
         box.pack_start(toggleButton, True, True, 0)
         page.add(row)
-
+   
     #returns listbox(page),not notebook tab
     def get_current_page(self, layout):
         return layout.get_nth_page(layout.get_current_page())
 
     def set_name(self, name):
         self.NotebookName = name
+
 
     def get_name(self):
         return self.NotebookName
@@ -73,6 +74,15 @@ class Notebook:
             if(self.pages[i] == previous_name):
                 widget = self.buttons[i]
                 widget.set_label(new_name)
+                self.pages[i] = new_name
+
+    def contains_page(self, name):
+        if(self.tree.find(name)):
+           return True
+
+        else:
+           return False
+            
 
 
 
