@@ -85,7 +85,6 @@ def open_file(window, widget):
 			open_dialog.destroy()
 
 def save_file(window, widget):
-		print('saveButton clicked')
 		savechooser = Gtk.FileChooserDialog('Save File', window, Gtk.FileChooserAction.SAVE, (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
 		allfilter = Gtk.FileFilter()
 		allfilter.set_name('All files')
@@ -101,10 +100,12 @@ def save_file(window, widget):
 		if response == Gtk.ResponseType.OK:
 			filename = savechooser.get_filename()
 			print(filename, 'selected.')
-
-            
 			buf = widget.get_buffer()
-			text = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), True)
+			start, end = buf.get_bounds()
+			text = buf.get_text(start, end, True)
+			
+			
+	
 			try:
 				open(filename, 'w').write(text)
 			except SomeError as e:
