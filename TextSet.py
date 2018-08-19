@@ -89,10 +89,6 @@ class TextBuffer(Gtk.TextBuffer):
 		self.connect_after('insert-text', self.text_inserted)
 		# A list to hold our active tags
 		self.taglist_on = []
-		self.taglist_None = []
-		self.taglist_Bold = []
-		self.taglist_Italic = []
-		self.taglist_Underline = []
 		# Our Bold tag.
 		self.tag_bold = self.create_tag("Bold", weight=Pango.Weight.BOLD)  
 		self.tag_none = self.create_tag("None", weight=Pango.Weight.NORMAL)
