@@ -14,9 +14,8 @@ class PopUp(Gtk.Dialog):
             name = "New NoteBook"
 
 
-        Gtk.Dialog.__init__(self, name, parent, Gtk.DialogFlags.MODAL, (
-            "Cancel", Gtk.ResponseType.CANCEL, 
-            Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        Gtk.Dialog.__init__(self, name, parent, modal = True)
+        self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(200, 100)
         self.set_border_width(30)
                 
@@ -45,9 +44,8 @@ class PopUp(Gtk.Dialog):
 class Rename(Gtk.Dialog):
     def __init__(self, parent, notebook_name, page_name):
 
-        Gtk.Dialog.__init__(self, "Rename", parent, Gtk.DialogFlags.MODAL, (
-            "Cancel", Gtk.ResponseType.CANCEL, 
-            Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        Gtk.Dialog.__init__(self, "Rename", parent, destroy_with_parent = True)
+        self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(200, 100)
         self.set_border_width(30)
                 
@@ -73,9 +71,8 @@ class Rename(Gtk.Dialog):
 class Delete(Gtk.Dialog):
     def __init__(self, parent, notebook, name, pagename):
             
-        Gtk.Dialog.__init__(self, "Delete", parent, Gtk.DialogFlags.MODAL, (
-            "Cancel", Gtk.ResponseType.CANCEL, 
-            Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        Gtk.Dialog.__init__(self, "Delete", parent, modal = True)
+        self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(300,225)
         self.set_border_width(60)
         self.set_resizable(True)
@@ -95,7 +92,7 @@ class Delete(Gtk.Dialog):
 
         label = Gtk.Label(name)
         self.button = Gtk.CheckButton()
-        self.check_buttons.append(self.button)
+        self.check_buttons.attach(self.button)
 
         self.box1.pack_start(label, True, True, 0)
         self.box2.pack_start(self.button, True, True, 0)
@@ -105,7 +102,7 @@ class Delete(Gtk.Dialog):
            self.box1.pack_start(label, True, True, 0)
 
            self.button = Gtk.CheckButton()
-           self.check_buttons.append(self.button)
+           self.check_buttons.attach(self.button)
            if(label.get_text() == pagename):
               self.button.set_active(True)
            self.box2.pack_start(self.button, True, True, 0)
@@ -123,8 +120,8 @@ class Delete(Gtk.Dialog):
 
 class Duplicate(Gtk.Dialog):
     def __init__(self, parent, boolean):
-        Gtk.Dialog.__init__(self, "Duplicate Found", parent, Gtk.DialogFlags.MODAL, (
-           Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        Gtk.Dialog.__init__(self, "Duplicate Found", parent, modal = True)
+        self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 
         self.set_default_size(200, 100)
         self.set_border_width(30)

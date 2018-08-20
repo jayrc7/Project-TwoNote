@@ -80,10 +80,6 @@ class MainWindow(Gtk.ApplicationWindow):
 		# says whatever we put in this box, theyre going to be together
 		Gtk.StyleContext.add_class(self.box.get_style_context(), "linked")
 
-		# left arrow
-		self.leftArrow = Gtk.Button()
-		self.leftArrow.add(Gtk.Arrow(Gtk.ArrowType.LEFT, Gtk.ShadowType.NONE))
-		self.box.add(self.leftArrow)
 
 		self.header.pack_start(self.box)
 
