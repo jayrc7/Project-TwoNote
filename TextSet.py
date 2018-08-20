@@ -179,55 +179,30 @@ class TextBuffer(Gtk.TextBuffer):
 
 
     def text_inserted(self, buffer, iter, text, length):
-
-        def text_bold_inserted(self, buffer, iter, text, length):
-            # A text was inserted in the buffer. If there are ny tags in self.tags_on,   apply them
-            if self.taglist_bold:
-
+        # A text was inserted in the buffer. If there are ny tags in self.tags_on,   apply them
+        # if self.taglist_None or self.taglist_Italic or self.taglist_Underline or self.taglist_Bold:
+        iter.backward_chars(length)
+        if self.taglist_italics:
+            if self.italics_check:
                 # This sets the iter back N characters
-                self.bold_iter_length = length
-                self.iter_length()
-                iter.backward_chars(self.bold_iter_length)
-                # And this applies tag from iter to end of buffer
-                if (self.bold_check == True):
-                    self.apply_tag_by_name('Bold', self.get_iter_position(), iter)
-                else:
-                    self.remove_tag_by_name("Bold", self.get_iter_position(), iter)
+                self.apply_tag_by_name('Italic', self.get_iter_position(), iter)
+            else:
+               self.remove_tag_by_name("Italic",self.get_iter_position(), iter)
 
-        def text_italics_inserted(self, buffer, iter, text, length):
-            # A text was inserted in the buffer. If there are ny tags in self.tags_on,   apply them
-            # if self.taglist_None or self.taglist_Italic or self.taglist_Underline or self.taglist_Bold:
-            if self.taglist_italics:
-                # This sets the iter back N characters
+        if self.taglist_underline:
+            print("step 1")
+            if self.underline_check:
+                print("step2")
+                self.apply_tag_by_name('Underline', self.get_iter_position(), iter)
 
-                # And this applies tag from iter to end of buffer
-                self.italics_iter_length = length
-                self.iter_length()
-                iter.backward_chars(self.italics_iter_length)
+            else:
+                self.remove_tag_by_name("Underline",self.get_iter_position(), iter)
 
-                if (self.italics_check == True):
-                    self.apply_tag_by_name('Italic', self.get_iter_position(), iter)
-                else:
-                    self.remove_tag_by_name("Italic", self.get_iter_position(), iter)
-
-        def text_underline_inserted(self, buffer, iter, text, length):
-            # A text was inserted in the buffer. If there are ny tags in self.tags_on,   apply them
-            # if self.taglist_None or self.taglist_Italic or self.taglist_Underline or self.taglist_Bold:
-            if self.taglist_underline:
-                # This sets the iter back N characters
-                # And this applies tag from iter to end of buffer
-                self.underline_iter_length = length
-                self.iter_length()
-                iter.backward_chars(self.bold_iter_length)
-
-                if (self.underline_check == True):
-                    self.apply_tag_by_name('Underline', self.get_iter_position(), iter)
-                else:
-                    self.remove_tag_by_name("Underline", self.get_iter_position(), iter)
-
-        text_bold_inserted(self, buffer, iter, text, length)
-        text_italics_inserted(self, buffer, iter, text, length)
-        text_underline_inserted(self, buffer, iter, text, length)
+        if self.taglist_bold:
+            if self.bold_check:
+                self.apply_tag_by_name('Bold', self.get_iter_position(), iter)
+            else:
+                    self.remove_tag_by_name("Bold",self.get_iter_position(), iter)
 
 
 				
