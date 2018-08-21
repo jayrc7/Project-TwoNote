@@ -51,8 +51,8 @@ class SidebarWindow(Gtk.Frame):
         self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
 
         # sidebar buttons
-        self.rename_button = Gtk.Button(label="R")
-        self.delete_button = Gtk.Button(label="D")
+        self.rename_button = Gtk.Button(label="Rename")
+        self.delete_button = Gtk.Button(label="Delete")
         self.rename_button.connect("clicked", win.rename)
         self.delete_button.connect("clicked", win.delete)
 
@@ -97,7 +97,6 @@ class SidebarWindow(Gtk.Frame):
 
             ##makes new page current page
             self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
-
             # adds page to gui
             self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
 
@@ -156,6 +155,12 @@ class SidebarWindow(Gtk.Frame):
 
             # updates notebook page
             self.notebook.set_page_name(temp, self.pagename)
+
+    def delete(self, popup):
+        buttons = popup.check_buttons
+        if(buttons[0].get_active() == True):
+           print("yes")
+         
 
     def contains_notebook(self, name):
         for i in range(len(self.notebook_list)):
