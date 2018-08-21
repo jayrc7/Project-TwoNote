@@ -7,7 +7,10 @@ class BinaryTree:
     ################################ Page Class ##############################
     class Page:
         def __init__(self, val):
+               
+            #val represents the name of the page
             self.val = val
+
             self.leftChild = None
             self.rightChild = None
     
@@ -86,6 +89,120 @@ class BinaryTree:
         
         for i in range(len(pages)):
             print(pages[i])
+
+
+    def remove(self, val):
+        current = root
+        parent = None
+
+        while(current != None):
+            
+            #matching data is found
+            if(current.val == val):
+               
+               #if its a leaf page
+               if(current.leftChild == None and current.rightChild == None):
+                  self.size = self.size - 1
+                  self.removeLeaf(parent, current)
+                  return
+
+               #if page has left child only 
+               elif(current.leftChild != None and current.rightChild == None):
+                  self.size = self.size - 1
+                  self.removeLeft(parent, current)
+                  return 
+               
+               #if page has right child only 
+               elif(current.leftChild == None and current.rightChild != None):
+                  self.size = self.size - 1
+                  self.removeRight(parent, current)
+                  return 
+               
+               #page has two childs 
+               else:
+                  successor = current.rightChild
+
+                  #checks to see whether successor moved 
+                  check = False
+
+                  #checks to see whether successor has to traverse to the left
+                  leftC = False
+
+
+                  #find leftmost page
+                  while(successor.leftChild != None):
+                     successor = successor.leftChild
+                     check = True
+                     leftC = True
+
+                  if(not check):
+                     current.val = successor.val
+                     current.rightChild = successor.rightChild
+                     self.size = self.size - 1
+                     return
+
+                  #find rightmost page
+                  while(successor.rightChild != None):
+                     leftC = False
+                     successor = successor.rightChild
+
+                  current.val = successor.val
+
+                  #handles deletion of reference
+                  if(leftC):
+                     successor.parent.leftChild = None
+
+                  else:
+                     successor.parent.rightChild = None
+
+                  self.size = self.size - 1
+                  return
+            
+            #traverse if data doesnt match
+            elif(current.val <= val):
+               parent = current
+               current = current.rightChild
+
+            else:
+               parent = current
+               current = current.rightChild
+
+
+    
+    def removeLeaf(parent_node, current_node):
+
+         if(parent_node == None):
+            self.root = None
+
+         elif(parent_node.leftChild == current):
+            parent_node.leftChild = None
+
+         else:
+            parent_node.rightChild = None
+
+
+    def removeLeft(parent_node, current_node):
+
+         if(parent_node == None):
+            self.root = current_node.leftChild
+
+         elif(parent_node.leftChild == current_node):
+            parent_node.leftChild = current_node.leftChild
+
+         else:
+            parent_node.rightChild = current_node.leftChild
+      
+      
+    def removeRight(parent_node, current_node):
+
+         if(parent_node == None):
+            self.root = current_node.leftChild
+
+         elif(parent_node.leftChild == current):
+            parent_node.leftChild = current.leftChild
+
+         else:
+            parent_node.rightChild = current.leftChild
 
 
     ########################## iterator class ######################################

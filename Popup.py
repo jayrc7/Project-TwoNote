@@ -92,7 +92,7 @@ class Delete(Gtk.Dialog):
 
         label = Gtk.Label(name)
         self.button = Gtk.CheckButton()
-        self.check_buttons.attach(self.button)
+        self.check_buttons.append(self.button)
 
         self.box1.pack_start(label, True, True, 0)
         self.box2.pack_start(self.button, True, True, 0)
@@ -102,7 +102,7 @@ class Delete(Gtk.Dialog):
            self.box1.pack_start(label, True, True, 0)
 
            self.button = Gtk.CheckButton()
-           self.check_buttons.attach(self.button)
+           self.check_buttons.append(self.button)
            if(label.get_text() == pagename):
               self.button.set_active(True)
            self.box2.pack_start(self.button, True, True, 0)

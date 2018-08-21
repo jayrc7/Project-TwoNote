@@ -138,19 +138,22 @@ class MainWindow(Gtk.ApplicationWindow):
 		self.popup.destroy()
 
 	def rename(self, signal):
-		self.rename_pop = pop.Rename(self, self.leftFrame.notebookname, self.leftFrame.pagename)
-		self.check = True
+      self.rename_pop = pop.Rename(self, self.leftFrame.notebookname, self.leftFrame.pagename)
+      self.check = True
 		while (self.check):
 			self.check = False
 			self.response = self.rename_pop.run()
 			if (self.response == Gtk.ResponseType.OK):
 				self.leftFrame.rename(self.rename_pop)
-		self.rename_pop.destroy()
+      self.rename_pop.destroy()
 
-	def delete(self, signal):
-		self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname)
-		self.response = self.delete_pop.run()
-		self.delete_pop.destroy()
+   def delete(self, signal):
+      self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname, self.leftFrame.pagename)
+      self.response = self.delete_pop.run()
+      if(self.response == Gtk.ResponseType.OK):
+         self.leftFrame.delete(self.delete_pop)
+         
+      self.delete_pop.destroy()
 
 
 	def new_book_clicked(self, action, none):
