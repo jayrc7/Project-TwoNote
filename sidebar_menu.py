@@ -1,7 +1,8 @@
 import gi
-import Notebook as note
+from gi.repository import Gtk
+
 import BinaryTree as tree
-from gi.repository import Gtk, Gio
+import Notebook as note
 
 gi.require_version('Gtk', '3.0')
 
@@ -158,9 +159,8 @@ class SidebarWindow(Gtk.Frame):
 
     def delete(self, popup):
         buttons = popup.check_buttons
-        if(buttons[0].get_active() == True):
-           print("yes")
-         
+        if (buttons[0].get_active() == True):
+            print("yes")
 
     def contains_notebook(self, name):
         for i in range(len(self.notebook_list)):
