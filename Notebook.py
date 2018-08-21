@@ -66,11 +66,7 @@ class Notebook:
 
     def get_child_at_index(num):
         return self.pages[num]
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 2ac8b19c524b8685d160eb8284ccb83d2f14fce3
     def set_page_name(self, previous_name, new_name):
         for i in range(len(self.pages)):
             if (self.pages[i] == previous_name):
