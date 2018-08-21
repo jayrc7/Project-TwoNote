@@ -67,7 +67,7 @@ class Notebook:
         return self.pages
 
     def get_child_at_index(num):
-        return pages[num]
+        return self.pages[num]
     
     def set_page_name(self, previous_name, new_name):
         for i in range(len(self.pages)):
