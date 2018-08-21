@@ -1,27 +1,27 @@
 import gi
-import TwoNote as note
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+
 class PopUp(Gtk.Dialog):
-        
-    def __init__(self, parent,boolean):
-                
-        if(boolean == True):
+
+    def __init__(self, parent, boolean):
+
+        if (boolean == True):
             name = "New Page"
 
         else:
             name = "New NoteBook"
 
-
-        Gtk.Dialog.__init__(self, name, parent, modal = True)
+        Gtk.Dialog.__init__(self, name, parent, modal=True)
         self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(200, 100)
         self.set_border_width(30)
-                
+
         area = self.get_content_area()
 
-        if(boolean):
+        if (boolean):
             self.entry = Gtk.Entry()
             self.entry.set_text("Page Name")
             self.entry.set_max_length(20)
@@ -37,21 +37,19 @@ class PopUp(Gtk.Dialog):
             area.add(self.entry)
             area.add(self.entry2)
 
-                
-                
         self.show_all()
+
 
 class Rename(Gtk.Dialog):
     def __init__(self, parent, notebook_name, page_name):
-
-        Gtk.Dialog.__init__(self, "Rename", parent, destroy_with_parent = True)
+        Gtk.Dialog.__init__(self, "Rename", parent, destroy_with_parent=True)
         self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(200, 100)
         self.set_border_width(30)
-                
+
         area = self.get_content_area()
-            
-        #content
+
+        # content
         self.notebook = Gtk.Notebook()
         self.entry_notebook = Gtk.Entry()
         self.entry_notebook.set_text(notebook_name)
@@ -63,32 +61,30 @@ class Rename(Gtk.Dialog):
         self.entry_page.set_max_length(20)
         self.notebook.insert_page(self.entry_page, Gtk.Label("Page"), -1)
 
-
-
         area.add(self.notebook)
         area.show_all()
 
+
 class Delete(Gtk.Dialog):
     def __init__(self, parent, notebook, name, pagename):
-            
-        Gtk.Dialog.__init__(self, "Delete", parent, modal = True)
+
+        Gtk.Dialog.__init__(self, "Delete", parent, modal=True)
         self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
-        self.set_default_size(300,225)
+        self.set_default_size(300, 225)
         self.set_border_width(60)
         self.set_resizable(True)
 
         area = self.get_content_area()
-                                    
-        #content
+
+        # content
         self.grid = Gtk.Grid()
         self.grid.set_row_spacing(20)
         self.grid.set_column_spacing(60)
-          
+
         self.check_buttons = []
 
-        self.box1 = Gtk.Box(orientation = Gtk.Orientation.VERTICAL, spacing = 10)
-        self.box2 = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
-
+        self.box1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        self.box2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         label = Gtk.Label(name)
         self.button = Gtk.CheckButton()
@@ -98,29 +94,28 @@ class Delete(Gtk.Dialog):
         self.box2.pack_start(self.button, True, True, 0)
 
         for i in range(len(notebook.pages)):
-           label = Gtk.Label(notebook.pages[i])
-           self.box1.pack_start(label, True, True, 0)
+            label = Gtk.Label(notebook.pages[i])
+            self.box1.pack_start(label, True, True, 0)
 
-           self.button = Gtk.CheckButton()
-           self.check_buttons.append(self.button)
-           if(label.get_text() == pagename):
-              self.button.set_active(True)
-           self.box2.pack_start(self.button, True, True, 0)
-
-      
+            self.button = Gtk.CheckButton()
+            self.check_buttons.append(self.button)
+            if (label.get_text() == pagename):
+                self.button.set_active(True)
+            self.box2.pack_start(self.button, True, True, 0)
 
         label = Gtk.Label('Deleting Notebook Will Delete Pages as Well.')
         self.grid.attach(self.box1, 2, 2, 2, 2)
         self.grid.attach_next_to(self.box2, self.box1, Gtk.PositionType.RIGHT, 2, 2)
         self.grid.attach_next_to(label, self.box2, Gtk.PositionType.BOTTOM, 2, 2)
         self.grid.show_all()
-   
+
         area.add(self.grid)
         area.show_all()
 
+
 class Duplicate(Gtk.Dialog):
     def __init__(self, parent, boolean):
-        Gtk.Dialog.__init__(self, "Duplicate Found", parent, modal = True)
+        Gtk.Dialog.__init__(self, "Duplicate Found", parent, modal=True)
         self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 
         self.set_default_size(200, 100)
@@ -129,21 +124,14 @@ class Duplicate(Gtk.Dialog):
         area = self.get_content_area()
 
         name = None
-        if(boolean):
-           name = "Page cannot be duplicated."
-         
+        if (boolean):
+            name = "Page cannot be duplicated."
+
         else:
-           name = "Notebook cannot be duplicated."
+            name = "Notebook cannot be duplicated."
 
         self.label = Gtk.Label(name)
 
         area.add(self.label)
 
-
         area.show_all()
-
-
-      
-                
-
-

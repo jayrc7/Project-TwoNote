@@ -145,9 +145,9 @@ class MainWindow(Gtk.ApplicationWindow):
                 self.leftFrame.rename(self.rename_pop)
                 self.rename_pop.destroy()
 
-
     def delete(self, signal):
-        self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname, self.leftFrame.pagename)
+        self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname,
+                                     self.leftFrame.pagename)
         self.response = self.delete_pop.run()
         if (self.response == Gtk.ResponseType.OK):
             self.leftFrame.delete(self.delete_pop)

@@ -1,7 +1,9 @@
-import gi 
+import gi
+
 gi.require_version('Gtk', '3.0')
 import threading, time
 from gi.repository import Gtk, Pango
+
 
 class TextSet(Gtk.TextView):
     def __init__(self, buttonBold, buttonItalic, buttonUnderline, interval=1):
@@ -106,12 +108,11 @@ class TextSet(Gtk.TextView):
                         self.tb.remove_tag_by_name("Underline", start, end)
         self.tb.underline_markup(widget)
 
-
-
     def mouse_clicked(self, window, event):
         self.button_bold.set_active(False)
         self.button_italic.set_active(False)
         self.button_underline.set_active(False)
+
 
 class TextBuffer(Gtk.TextBuffer):
     def __init__(self):
@@ -171,12 +172,11 @@ class TextBuffer(Gtk.TextBuffer):
             self.underline_iter_length = 0
             self.italics_iter_length = 0
         elif self.taglist_bold and self.taglist_underline:
-                self.underline_iter_length = 0
+            self.underline_iter_length = 0
         elif self.taglist_italics and self.taglist_underline:
             self.underline_iter_length = 0
-        elif  self.taglist_bold and self.taglist_italics:
+        elif self.taglist_bold and self.taglist_italics:
             self.italics_iter_length = 0
-
 
     def text_inserted(self, buffer, iter, text, length):
         # A text was inserted in the buffer. If there are ny tags in self.tags_on,   apply them
@@ -187,7 +187,7 @@ class TextBuffer(Gtk.TextBuffer):
                 # This sets the iter back N characters
                 self.apply_tag_by_name('Italic', self.get_iter_position(), iter)
             else:
-               self.remove_tag_by_name("Italic",self.get_iter_position(), iter)
+                self.remove_tag_by_name("Italic", self.get_iter_position(), iter)
 
         if self.taglist_underline:
             print("step 1")
@@ -196,17 +196,10 @@ class TextBuffer(Gtk.TextBuffer):
                 self.apply_tag_by_name('Underline', self.get_iter_position(), iter)
 
             else:
-                self.remove_tag_by_name("Underline",self.get_iter_position(), iter)
+                self.remove_tag_by_name("Underline", self.get_iter_position(), iter)
 
         if self.taglist_bold:
             if self.bold_check:
                 self.apply_tag_by_name('Bold', self.get_iter_position(), iter)
             else:
-                    self.remove_tag_by_name("Bold",self.get_iter_position(), iter)
-
-
-				
-
-
-            
-  
+                self.remove_tag_by_name("Bold", self.get_iter_position(), iter)

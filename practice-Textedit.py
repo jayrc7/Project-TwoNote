@@ -57,7 +57,6 @@ class MainWindow(Gtk.ApplicationWindow):
             bounds = self.tb.get_selection_bounds()
             time.sleep(self.interval)
             if (len(bounds) != 0):
-                start, end = bounds
                 location = self.tb.get_iter_at_mark(self.tb.get_insert())
                 myTags = location.get_tags()
                 if len(myTags) != 0:
@@ -75,8 +74,7 @@ class MainWindow(Gtk.ApplicationWindow):
                     self.button_italic.set_active(False)
                     self.button_bold.set_active(False)
 
-                filename = "Untitled"
-
+    filename = "Untitled"
     def open_file(self, widget):
         open_dialog = Gtk.FileChooserDialog("Open an existing file", self, Gtk.FileChooserAction.OPEN, (
             Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
