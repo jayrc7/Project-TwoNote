@@ -187,7 +187,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
     def run(self):
         while self.thread:
-            print("do domething")
+            #print("do domething")
             self.thread = False
 
 

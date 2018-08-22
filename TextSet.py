@@ -45,7 +45,6 @@ class TextSet(Gtk.TextView):
                         elif (myTags[i].props.name == "Underline"):
                             self.button_underline.set_active(True)
                 else:
-                    print("empty")
                     self.button_underline.set_active(False)
                     self.button_italic.set_active(False)
                     self.button_bold.set_active(False)

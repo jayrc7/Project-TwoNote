@@ -64,7 +64,7 @@ class Notebook:
     def get_Children(self):
         return self.pages
 
-    def get_child_at_index(num):
+    def get_child_at_index(self, num):
         return self.pages[num]
 
     def set_page_name(self, previous_name, new_name):
