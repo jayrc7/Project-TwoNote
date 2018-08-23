@@ -81,5 +81,5 @@ class Notebook:
         else:
             return False
 
-    def remove_page(self, buttons):
+    #def remove_page(self, buttons):
          

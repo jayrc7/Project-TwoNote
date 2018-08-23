@@ -79,13 +79,15 @@ class SidebarWindow(Gtk.Frame):
         self.menu_grid.attach(self.leftFrame, 0, 0, 2, 1)
         self.menu_grid.attach_next_to(self.buttons_Left, self.leftFrame, Gtk.PositionType.BOTTOM, 2, 2)
         self.add(self.menu_grid)
+        
         try:
-           self.f = open("myfile.txt", 'r')
-           if '~' in self.f.read():
-               self.get_notebook_contents()
-               self.save_notebook_contents()
-        except FileNotFoundError as e:
-            self.f = open("myfile.txt", 'w+')
+          self.f = open("myfile.txt", 'r')
+          if '~' in self.f.read():
+            self.get_notebook_contents()
+            self.save_notebook_contents()
+        except IOError as e:
+          self.f = open("myfile.txt", 'w+')
+
 
 
 
@@ -150,11 +152,19 @@ class SidebarWindow(Gtk.Frame):
             self.notebook.add(self.page)
             ## update gui
             self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+            self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
+            self.notebook = self.notebook_check(self.notebookname)
+
             self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
             self.notebook_layout.show_all()
             self.save_notebook_contents()
         else:
             self.win.duplicate_true()
+
+    def notebook_check(self, notebook_name):
+        for i in range(len(self.notebook_list)):
+            if(self.notebook_list[i].NotebookName == notebook_name):
+              return self.notebook_list[i]
 
     def rename(self, popup):
         self.rename_pop = popup
