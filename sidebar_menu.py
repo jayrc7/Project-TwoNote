@@ -2,6 +2,8 @@ import gi
 from gi.repository import Gtk
 import BinaryTree as tree
 import Notebook as note
+import threading
+
 gi.require_version('Gtk', '3.0')
 
 
@@ -35,6 +37,10 @@ class SidebarWindow(Gtk.Frame):
 
         # for gui
         self.gui_notebook = None
+
+        #button
+        self.active_button = None 
+        self.previous_button = None
 
         # grid to hold everything on the side menu
         self.menu_grid = Gtk.Grid()
@@ -81,15 +87,15 @@ class SidebarWindow(Gtk.Frame):
         self.add(self.menu_grid)
         
         try:
-          self.f = open("myfile.txt", 'r')
-          if '~' in self.f.read():
+          self.f = open("NotebookMaster.txt", 'r')
+          if '^' in self.f.read():
             self.get_notebook_contents()
             self.save_notebook_contents()
         except IOError as e:
-          self.f = open("myfile.txt", 'w+')
-
-
-
+          self.f = open("NotebookMaster.txt", 'w+')
+        
+    
+        print("e")
 
     def new_book(self, popup):
         self.popup = popup
@@ -99,7 +105,7 @@ class SidebarWindow(Gtk.Frame):
             self.buff.set_text("")
             self.notebookname = self.popup.entry.get_text()
             self.notebook_names.append(self.notebookname)
-            self.notebook = note.Notebook(self.notebookname)
+            self.notebook = note.Notebook(self.notebookname, self)
             self.pagename = self.popup.entry2.get_text()
             self.page = tree.BinaryTree.Page(self.pagename)
             self.notebook.add(self.page)
@@ -111,7 +117,7 @@ class SidebarWindow(Gtk.Frame):
             ##makes new page current page
             self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
             # adds page to gui
-            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, True)
 
             self.save_notebook_contents()
 
@@ -123,20 +129,20 @@ class SidebarWindow(Gtk.Frame):
     def new_book_nopop(self, notebookname):
         self.notebookname = notebookname
         self.notebook_names.append(self.notebookname)
-        self.notebook = note.Notebook(self.notebookname)
+        self.notebook = note.Notebook(self.notebookname, self)
         self.notebook.add_notebook_gui(self.notebook_layout, self.notebookname)
         self.notebook_list.append(self.notebook)
         self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
         return self.notebook
 
     def new_page_nopop(self, pagename , notebook):
-
+        print("hay")
         self.pagename = pagename
         self.page = tree.BinaryTree.Page(self.pagename)
         notebook.add(self.page)
         ## update gui
         self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
-        notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+        notebook.add_page_gui(self.gui_notebook_page, self.pagename, False)
         self.notebook_layout.show_all()
 
 
@@ -155,7 +161,7 @@ class SidebarWindow(Gtk.Frame):
             self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
             self.notebook = self.notebook_check(self.notebookname)
 
-            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, True)
             self.notebook_layout.show_all()
             self.save_notebook_contents()
         else:
@@ -166,7 +172,7 @@ class SidebarWindow(Gtk.Frame):
             if(self.notebook_list[i].NotebookName == notebook_name):
               return self.notebook_list[i]
 
-    def rename(self, popup):
+    def rename(self, popup, False):
         self.rename_pop = popup
         temp = self.pagename
         response = self.rename_pop.entry_notebook.get_text()
@@ -224,20 +230,22 @@ class SidebarWindow(Gtk.Frame):
             for k in range(len(self.notebook_list[i].pages)):
                 self.string = self.string + "^" + self.notebook_list[i].pages[k]
 
-        self.f = open("myfile.txt", 'w+')
+        self.f = open("NotebookMaster.txt", 'w+')
         self.f.write(self.string)
         self.f.close()
 
 
     def get_notebook_contents(self):
-
-        self.f = open("myfile.txt", 'r')
+        self.f = open("NotebookMaster.txt", 'r')
         contents = self.f.read()
         self.twonote_structure = contents.split("~")
         for i in range(len(self.twonote_structure)):
 
             self.notebook_structure = self.twonote_structure[i].split("^")
             for k in range(len(self.notebook_structure)):
+                if "\n" in self.notebook_structure[k]:
+                    temp = self.notebook_structure[k].split("\n")
+                    self.notebook_structure[k] = temp[0]
 
                 if k == 0:
                     notebook = self.new_book_nopop(self.notebook_structure[k])

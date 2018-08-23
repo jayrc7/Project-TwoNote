@@ -113,7 +113,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.thread.daemon = True
         self.thread_bool = True
 
-        self.thread.start()
+        #self.thread.start()
 
         if (len(self.leftFrame.notebook_list) == 0):
             self.popup = pop.PopUp(self, False)

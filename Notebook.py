@@ -5,7 +5,8 @@ import BinaryTree as btree
 
 
 class Notebook:
-    def __init__(self, string):
+    def __init__(self, string, win):
+        self.sidebar = win
         self.NotebookName = string
         self.tree = btree.BinaryTree()
         self.pages = []
@@ -40,12 +41,16 @@ class Notebook:
         currentpage = layout.get_nth_page(current)
         return currentpage
 
-    def add_page_gui(self, page, name):
+    def add_page_gui(self, page, name, boolean):
         row = Gtk.ListBoxRow()
+        self.name = name
         toggleButton = Gtk.ToggleButton(label=name)
+        self.sidebar.active_button = toggleButton
+        toggleButton.connect("clicked", self.open_page, self)
         self.buttons.append(toggleButton)
 
-        toggleButton.set_active(True)
+        if(boolean):    
+            toggleButton.set_active(True)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         row.add(box)
         box.pack_start(toggleButton, True, True, 0)
@@ -80,6 +85,14 @@ class Notebook:
 
         else:
             return False
+
+    def open_page(signal, button, notebook):
+        print("heu")
+        notebook.sidebar.previous_button = notebook.sidebar.active_button
+
+        notebook.sidebar.previous_button.set_active(False)
+
+        notebook.sidebar.active_button = button
 
     #def remove_page(self, buttons):
          
