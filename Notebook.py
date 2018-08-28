@@ -11,6 +11,7 @@ class Notebook:
         self.tree = btree.BinaryTree()
         self.pages = []
         self.buttons = []
+        self.count = 0
 
     def add(self, page):
         self.tree.insert(page)
@@ -46,7 +47,8 @@ class Notebook:
         self.name = name
         toggleButton = Gtk.ToggleButton(label=name)
         self.sidebar.active_button = toggleButton
-        toggleButton.connect("clicked", self.open_page, self)
+        count = 0 
+        toggleButton.connect("clicked", self.open_page, self, count)
         self.buttons.append(toggleButton)
 
         if(boolean):    
@@ -86,13 +88,16 @@ class Notebook:
         else:
             return False
 
-    def open_page(signal, button, notebook):
-        print("heu")
-        notebook.sidebar.previous_button = notebook.sidebar.active_button
+    def open_page(signal, button, notebook, count):
+        count = count + 1
+        if(count == 1):
+            print("hey")
+            notebook.sidebar.previous_button = notebook.sidebar.active_button
 
-        notebook.sidebar.previous_button.set_active(False)
+            notebook.sidebar.previous_button.set_active(False)
 
-        notebook.sidebar.active_button = button
+            notebook.sidebar.active_button = button
+
 
     #def remove_page(self, buttons):
          

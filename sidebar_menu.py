@@ -172,7 +172,7 @@ class SidebarWindow(Gtk.Frame):
             if(self.notebook_list[i].NotebookName == notebook_name):
               return self.notebook_list[i]
 
-    def rename(self, popup, False):
+    def rename(self, popup):
         self.rename_pop = popup
         temp = self.pagename
         response = self.rename_pop.entry_notebook.get_text()
@@ -186,11 +186,20 @@ class SidebarWindow(Gtk.Frame):
             else:
                 self.win.duplicate_false()
 
-        if (self.notebook.contains_page(response2)):
-            self.win.duplicate_true()
+        page_boolean = True
+        if(self.notebook.contains_page(response2)):
+            page_boolean = False
+            if(response2 == self.pagename):
+                page_boolean = True
+
+            else:
+                self.win_duplicate_true()
+
+        #if (self.notebook.contains_page(response2)):
+            #self.win.duplicate_true()
 
         # if(not self.notebook.contains_page(response2) and not self.contains_notebook(response)):
-        if (not self.notebook.contains_page(response2) and note_boolean):
+        if ( page_boolean and note_boolean):
             # changes name instance variables
             self.notebookname = self.rename_pop.entry_notebook.get_text()
             self.pagename = self.rename_pop.entry_page.get_text()

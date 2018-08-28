@@ -136,14 +136,21 @@ class MainWindow(Gtk.ApplicationWindow):
         self.popup.destroy()
 
     def rename(self, signal):
-        self.rename_pop = pop.Rename(self, self.leftFrame.notebookname, self.leftFrame.pagename)
         self.check = True
+        self.leftFrame.gui_notebook_page = self.leftFrame.notebook.get_current_page(self.leftFrame.notebook_layout)
+        self.leftFrame.notebookname = self.leftFrame.notebook_layout.get_tab_label_text(self.leftFrame.gui_notebook_page)
+        self.leftFrame.notebook = self.leftFrame.notebook_check(self.leftFrame.notebookname)
+
+        self.leftFrame.pagename = self.leftFrame.active_button.get_label()
+
         while (self.check):
+            self.rename_pop = pop.Rename(self,self.leftFrame.notebookname, self.leftFrame.pagename)
             self.check = False
             self.response = self.rename_pop.run()
             if (self.response == Gtk.ResponseType.OK):
                 self.leftFrame.rename(self.rename_pop)
                 self.rename_pop.destroy()
+            self.rename_pop.destroy()
 
     def delete(self, signal):
         self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname,
@@ -158,6 +165,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.popup = pop.PopUp(self, False)
         self.check = True
         while (self.check):
+            self.popup = pop.PopUp(self, False)
             self.check = False
             self.response = self.popup.run()
             if (self.response == Gtk.ResponseType.OK):
