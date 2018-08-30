@@ -100,7 +100,7 @@ class SidebarWindow(Gtk.Frame):
     def new_book(self, popup):
         self.popup = popup
         client_response = self.popup.entry.get_text()
-        if (not self.contains_notebook(client_response)):
+        if(not self.contains_notebook(client_response)):
             # save current work (new notebook will clear textview)
             self.buff.set_text("")
             self.notebookname = self.popup.entry.get_text()
@@ -119,11 +119,24 @@ class SidebarWindow(Gtk.Frame):
             # adds page to gui
             self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
 
+            #sets new button active
+            for i in range(len(self.notebook.buttons)):
+                if(self.notebook.buttons[i].get_label() == self.pagename):
+                    self.previous_button = self.active_button
+                    self.active_button = self.notebook.buttons[i]
+                
+                    self.notebook.buttons[i].set_active(True)
+
+                    if(self.previous_button != None):
+                        self.previous_button.set_active(False)
+                    print("change")
+
             self.save_notebook_contents()
 
             self.notebook_layout.show_all()
 
         else:
+            self.win.check = False
             self.win.duplicate_false()
 
     def new_book_nopop(self, notebookname):
@@ -154,17 +167,28 @@ class SidebarWindow(Gtk.Frame):
             self.buff.set_text("")
             self.pagename = self.popup.entry.get_text()
             self.page = tree.BinaryTree.Page(self.pagename)
-            self.notebook.add(self.page)
             ## update gui
             self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
             self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
             self.notebook = self.notebook_check(self.notebookname)
+            self.notebook.add(self.page)
 
             self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+
             self.notebook_layout.show_all()
             self.save_notebook_contents()
         else:
             self.win.duplicate_true()
+
+        for i in range(len(self.notebook.buttons)):
+            if(self.notebook.buttons[i].get_label() == self.pagename):
+                self.previous_button = self.active_button
+                self.active_button = self.notebook.buttons[i]
+                
+                self.notebook.buttons[i].set_active(True)
+                self.previous_button.set_active(False)
+                
+                print("change")
 
     def notebook_check(self, notebook_name):
         for i in range(len(self.notebook_list)):
@@ -286,4 +310,24 @@ class SidebarWindow(Gtk.Frame):
 
                 else:
                     self.new_page_nopop(self.notebook_structure[k], notebook)
+
+        self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+        self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
+        self.notebook = self.notebook_check(self.notebookname)
+        self.pagename = self.notebook.pages[-1]
+        
+
+
+        for i in range(len(self.notebook.buttons)):
+            if(self.notebook.buttons[i].get_label() == self.pagename):
+                self.active_button = self.notebook.buttons[i]
+                self.notebook.buttons[i].set_active(True)
+                print("change")
+
+
+
+
+        
+        #for i in range(len(notebook_list)):
+
 
