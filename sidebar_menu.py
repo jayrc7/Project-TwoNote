@@ -319,9 +319,19 @@ class SidebarWindow(Gtk.Frame):
             if(self.notebook.buttons[i].get_label() == self.pagename):
                 self.active_button = self.notebook.buttons[i]
                 self.notebook.buttons[i].set_active(True)
-                print("change")
+                tmpname = self.active_button.get_label()
+                self.load_current_page(tmpname)
 
+    def load_current_page(self, name):
+        file = open(name, 'r')
+        contents = file.read()
+        self.buff.set_text(contents)
 
+    def save_current_page(self, prev_name):
+        prev_file = open(prev_name, 'w+')
+        start, end = self.buff.get_bounds()
+        buff_content = self.buff.get_text(start, end, True)
+        prev_file.write(buff_content)
 
 
         

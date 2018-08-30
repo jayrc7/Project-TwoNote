@@ -117,18 +117,11 @@ class Notebook:
             #return
         notebook.sidebar.previous_button = notebook.sidebar.active_button
         if(notebook.sidebar.previous_button != None):
-            print("save")
             prev_name = notebook.sidebar.previous_button.get_label()
-            prev_file = open(prev_name, 'w+')
-            start, end = buff.get_bounds()
-            buff_content = buff.get_text(start, end, True)
-            prev_file.write(buff_content)
+            notebook.sidebar.save_current_page(prev_name)
             notebook.sidebar.previous_button.set_active(False)
-       
 
-        file = open(name, 'r')
-        contents = file.read()
-        buff.set_text(contents)
+        notebook.sidebar.load_current_page(name)
         notebook.sidebar.active_button = button
         notebook.boolean = False
 
