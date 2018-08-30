@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 import BinaryTree as btree
 
 
@@ -45,11 +45,11 @@ class Notebook:
         currentpage = layout.get_nth_page(current)
         return currentpage
 
-    def add_page_gui(self, page, name):
+    def add_page_gui(self, page, name, buff):
         row = Gtk.ListBoxRow()
         self.name = name
         toggleButton = Gtk.ToggleButton(label=name)
-        toggleButton.connect("pressed", self.open_page, self)
+        toggleButton.connect("pressed", self.open_page, self, name, buff)
         self.buttons.append(toggleButton)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         row.add(box)
@@ -92,7 +92,15 @@ class Notebook:
         else:
             return False
 
-    def open_page(signal, button, notebook):
+    def save_current_page(self, notebook, buff):
+        button = notebook.sidebar.active_button
+        name = button.get_label()
+        prev_file = open(name, 'w+')
+        start, end = buff.get_bounds()
+        buff_content = buff.get_text(start, end, True)
+        prev_file.write(buff_content)
+
+    def open_page(signal, button, notebook, name, buff):
         '''
         if(len(noteboook.sidebar.notebook_list) == 1 and notebook.boolean):
             notebook.sidebar.active_button = button
@@ -107,10 +115,18 @@ class Notebook:
         if(notebook.currentButton == notebook.sidebar.active_button):
             notebook.sidebar.active_button.set_active(True)
             return
-        print("BUTTON")
+
         notebook.sidebar.previous_button = notebook.sidebar.active_button
+        prev_name = notebook.sidebar.previous_button.get_label()
+        prev_file = open(prev_name, 'w+')
+        start, end = buff.get_bounds()
+        buff_content = buff.get_text(start, end, True)
+        prev_file.write(buff_content)
         notebook.sidebar.previous_button.set_active(False)
 
+        file = open(name, 'r')
+        contents = file.read()
+        buff.set_text(contents)
         notebook.sidebar.active_button = button
         notebook.boolean = False
 
