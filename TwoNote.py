@@ -107,13 +107,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.settings_action.connect("activate", self.settings_clicked)
         self.add_action(self.settings_action)
         self.connect('destroy', Gtk.main_quit)
+        self.connect('delete_event', self.on_destroy)
         self.show_all()
-
-        self.thread = threading.Thread(target=self.run, args=())
-        self.thread.daemon = True
-        self.thread_bool = True
-
-        #self.thread.start()
 
         if (len(self.leftFrame.notebook_list) == 0):
             self.popup = pop.PopUp(self, False, True)
@@ -196,11 +191,10 @@ class MainWindow(Gtk.ApplicationWindow):
     def settings_clicked(self, action, none):
         print("settings")
 
-    def run(self):
-        while self.thread:
-            #print("do domething")
-            self.thread = False
-
+    def on_destroy(self, widget = None, *data):
+        name = self.leftFrame.active_button.get_label()
+        self.leftFrame.save_current_page(name)
+        self.leftFrame.save_notebook_contents()
 
 if __name__ == '__main__':
     win = MainWindow()
