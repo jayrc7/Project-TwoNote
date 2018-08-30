@@ -241,24 +241,20 @@ class SidebarWindow(Gtk.Frame):
 
     def delete(self, popup):
         buttons = popup.check_buttons
-        #for i in range(len(self.notebook_list)):
-            #print(self.notebook_list[i].NotebookName)
-
 
         if(buttons[0].get_active() == True):
             self.notebook_names.remove(self.notebookname)
             self.notebook_list.remove(self.notebook)
-            self.notebook = self.notebook_list[0]
             page = self.notebook_layout.get_current_page()
             self.notebook_layout.remove_page(page)
-            self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
+
+            self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+            self.notebookname = self.notebook_list[-1].NotebookName
             self.notebook = self.notebook_check(self.notebookname)
+            self.pagename = self.notebook.pages[-1]
+            for i in range
+
             
-
-        #print("after")
-        #for i in range(len(self.notebook_list)):
-
-            #print(self.notebook_list[i].NotebookName)
 
         self.save_notebook_contents()
 
@@ -328,6 +324,5 @@ class SidebarWindow(Gtk.Frame):
 
 
         
-        #for i in range(len(notebook_list)):
 
 
