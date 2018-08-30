@@ -125,15 +125,12 @@ class SidebarWindow(Gtk.Frame):
                 if(self.notebook.buttons[i].get_label() == self.pagename):
                     self.previous_button = self.active_button
                     self.active_button = self.notebook.buttons[i]
-                
                     self.notebook.buttons[i].set_active(True)
-
                     if(self.previous_button != None):
                         self.previous_button.set_active(False)
                     print("change")
 
             self.save_notebook_contents()
-
             self.notebook_layout.show_all()
 
         else:
@@ -220,6 +217,8 @@ class SidebarWindow(Gtk.Frame):
             else:
                 self.win_duplicate_true()
 
+        self.save_notebook_contents()
+
         #if (self.notebook.contains_page(response2)):
             #self.win.duplicate_true()
 
@@ -243,7 +242,7 @@ class SidebarWindow(Gtk.Frame):
 
     def delete(self, popup):
         buttons = popup.check_buttons
-
+        #delete file
         if(buttons[0].get_active() == True):
             self.notebook_names.remove(self.notebookname)
             self.notebook_list.remove(self.notebook)
@@ -315,7 +314,7 @@ class SidebarWindow(Gtk.Frame):
         self.pagename = self.notebook.pages[-1]
         
 
-
+        #special character in the end of current notebook and name
         for i in range(len(self.notebook.buttons)):
             if(self.notebook.buttons[i].get_label() == self.pagename):
                 self.active_button = self.notebook.buttons[i]

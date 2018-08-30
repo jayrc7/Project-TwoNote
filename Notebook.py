@@ -111,18 +111,20 @@ class Notebook:
 
         else:
         '''
-        #notebook.currentButton = button
-        if(notebook.currentButton == notebook.sidebar.active_button):
-            notebook.sidebar.active_button.set_active(True)
-            return
-
+        notebook.currentButton = button
+        #if(notebook.currentButton == notebook.sidebar.active_button):
+            #notebook.sidebar.active_button.set_active(True)
+            #return
         notebook.sidebar.previous_button = notebook.sidebar.active_button
-        prev_name = notebook.sidebar.previous_button.get_label()
-        prev_file = open(prev_name, 'w+')
-        start, end = buff.get_bounds()
-        buff_content = buff.get_text(start, end, True)
-        prev_file.write(buff_content)
-        notebook.sidebar.previous_button.set_active(False)
+        if(notebook.sidebar.previous_button != None):
+            print("save")
+            prev_name = notebook.sidebar.previous_button.get_label()
+            prev_file = open(prev_name, 'w+')
+            start, end = buff.get_bounds()
+            buff_content = buff.get_text(start, end, True)
+            prev_file.write(buff_content)
+            notebook.sidebar.previous_button.set_active(False)
+       
 
         file = open(name, 'r')
         contents = file.read()
