@@ -93,10 +93,10 @@ class SidebarWindow(Gtk.Frame):
             self.save_notebook_contents()
         except IOError as e:
           self.f = open("NotebookMaster.txt", 'w+')
+
+        note.pressed = True
         
     
-        print("e")
-
     def new_book(self, popup):
         self.popup = popup
         client_response = self.popup.entry.get_text()
@@ -117,7 +117,7 @@ class SidebarWindow(Gtk.Frame):
             ##makes new page current page
             self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
             # adds page to gui
-            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, True)
+            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
 
             self.save_notebook_contents()
 
@@ -136,13 +136,12 @@ class SidebarWindow(Gtk.Frame):
         return self.notebook
 
     def new_page_nopop(self, pagename , notebook):
-        print("hay")
         self.pagename = pagename
         self.page = tree.BinaryTree.Page(self.pagename)
         notebook.add(self.page)
         ## update gui
         self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
-        notebook.add_page_gui(self.gui_notebook_page, self.pagename, False)
+        notebook.add_page_gui(self.gui_notebook_page, self.pagename)
         self.notebook_layout.show_all()
 
 
@@ -161,7 +160,7 @@ class SidebarWindow(Gtk.Frame):
             self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
             self.notebook = self.notebook_check(self.notebookname)
 
-            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, True)
+            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
             self.notebook_layout.show_all()
             self.save_notebook_contents()
         else:
@@ -218,8 +217,8 @@ class SidebarWindow(Gtk.Frame):
 
     def delete(self, popup):
         buttons = popup.check_buttons
-        for i in range(len(self.notebook_list)):
-            print(self.notebook_list[i].NotebookName)
+        #for i in range(len(self.notebook_list)):
+            #print(self.notebook_list[i].NotebookName)
 
 
         if(buttons[0].get_active() == True):
@@ -232,10 +231,10 @@ class SidebarWindow(Gtk.Frame):
             self.notebook = self.notebook_check(self.notebookname)
             
 
-        print("after")
-        for i in range(len(self.notebook_list)):
+        #print("after")
+        #for i in range(len(self.notebook_list)):
 
-            print(self.notebook_list[i].NotebookName)
+            #print(self.notebook_list[i].NotebookName)
 
         self.save_notebook_contents()
 
@@ -252,9 +251,8 @@ class SidebarWindow(Gtk.Frame):
         return False
 
     def save_notebook_contents(self):
-        print("save")
-        for i in range(len(self.notebook_list)):
-            print(self.notebook_list[i].NotebookName)
+        #for i in range(len(self.notebook_list)):
+            #print(self.notebook_list[i].NotebookName)
 
         self.string = ""
         for i in range(len(self.notebook_names)):

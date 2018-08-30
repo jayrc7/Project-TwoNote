@@ -162,7 +162,6 @@ class MainWindow(Gtk.ApplicationWindow):
         self.delete_pop.destroy()
 
     def new_book_clicked(self, action, none):
-        self.popup = pop.PopUp(self, False)
         self.check = True
         while (self.check):
             self.popup = pop.PopUp(self, False)

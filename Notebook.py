@@ -11,7 +11,8 @@ class Notebook:
         self.tree = btree.BinaryTree()
         self.pages = []
         self.buttons = []
-        self.count = 0
+        self.boolean = True
+        self.pressed = False
 
     def add(self, page):
         self.tree.insert(page)
@@ -32,8 +33,8 @@ class Notebook:
     def notebook_iterator(self):
         page_list = []
         self.iterator = btree.BinaryTree.Iterator(self.tree)
-        for i in range(self.tree.size):
-            print(self.iterator.next())
+        #for i in range(self.tree.size):
+            #print(self.iterator.next())
 
     ##makes newly made notebook tab to current and returns listbox(page)
     def set_current_section(self, layout):
@@ -42,21 +43,22 @@ class Notebook:
         currentpage = layout.get_nth_page(current)
         return currentpage
 
-    def add_page_gui(self, page, name, boolean):
+    def add_page_gui(self, page, name):
         row = Gtk.ListBoxRow()
         self.name = name
         toggleButton = Gtk.ToggleButton(label=name)
-        self.sidebar.active_button = toggleButton
-        count = 0 
-        toggleButton.connect("clicked", self.open_page, self, count)
+        toggleButton.connect("clicked", self.open_page, self)
         self.buttons.append(toggleButton)
-
-        if(boolean):    
-            toggleButton.set_active(True)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         row.add(box)
         box.pack_start(toggleButton, True, True, 0)
         page.add(row)
+
+        toggleButton.set_active(True)
+
+        if(self.boolean):
+            self.activate(toggleButton) 
+        
 
     # returns listbox(page),not notebook tab
     def get_current_page(self, layout):
@@ -88,15 +90,27 @@ class Notebook:
         else:
             return False
 
-    def open_page(signal, button, notebook, count):
-        count = count + 1
-        if(count == 1):
-            print("hey")
-            notebook.sidebar.previous_button = notebook.sidebar.active_button
+    def open_page(signal, button, notebook):
 
+        if(len(notebook.sidebar.notebook_list) == 1 and notebook.boolean):
+            notebook.sidebar.active_button = button
+            notebook.sidebar.active_button.set_active(True)
+            notebook.sidebar.initial_button = False
+            print("True")
+            notebook.boolean = False
+
+        else:
+            print("False")
+            notebook.sidebar.previous_button = notebook.sidebar.active_button
             notebook.sidebar.previous_button.set_active(False)
 
             notebook.sidebar.active_button = button
+            notebook.boolean = False
+
+    def activate(self, button
+
+        #if(notebook.sidebar.active_button == notebook.sidebar.previous_button):
+            #notebook.sidebar.active_button.set_active(True)
 
 
     #def remove_page(self, buttons):
