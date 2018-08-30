@@ -1,5 +1,5 @@
 import gi
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 import BinaryTree as tree
 import Notebook as note
 import threading
@@ -108,6 +108,7 @@ class SidebarWindow(Gtk.Frame):
             self.notebook = note.Notebook(self.notebookname, self)
             self.pagename = self.popup.entry2.get_text()
             self.page = tree.BinaryTree.Page(self.pagename)
+            GLib.file_set_contents(self.pagename, '')
             self.notebook.add(self.page)
             self.notebook_list.append(self.notebook)
 
@@ -117,7 +118,7 @@ class SidebarWindow(Gtk.Frame):
             ##makes new page current page
             self.gui_notebook_page = self.notebook.set_current_section(self.notebook_layout)
             # adds page to gui
-            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, self.buff)
 
             #sets new button active
             for i in range(len(self.notebook.buttons)):
@@ -154,7 +155,7 @@ class SidebarWindow(Gtk.Frame):
         notebook.add(self.page)
         ## update gui
         self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
-        notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+        notebook.add_page_gui(self.gui_notebook_page, self.pagename, self.buff)
         self.notebook_layout.show_all()
 
 
@@ -167,13 +168,14 @@ class SidebarWindow(Gtk.Frame):
             self.buff.set_text("")
             self.pagename = self.popup.entry.get_text()
             self.page = tree.BinaryTree.Page(self.pagename)
+            GLib.file_set_contents(self.pagename, '')
             ## update gui
             self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
             self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
             self.notebook = self.notebook_check(self.notebookname)
             self.notebook.add(self.page)
 
-            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename)
+            self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, self.buff)
 
             self.notebook_layout.show_all()
             self.save_notebook_contents()
@@ -252,7 +254,7 @@ class SidebarWindow(Gtk.Frame):
             self.notebookname = self.notebook_list[-1].NotebookName
             self.notebook = self.notebook_check(self.notebookname)
             self.pagename = self.notebook.pages[-1]
-            for i in range
+            #for i in range
 
             
 
