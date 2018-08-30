@@ -116,10 +116,14 @@ class MainWindow(Gtk.ApplicationWindow):
         #self.thread.start()
 
         if (len(self.leftFrame.notebook_list) == 0):
-            self.popup = pop.PopUp(self, False)
-            self.response = self.popup.run()
-            if (self.response == Gtk.ResponseType.OK):
-                self.leftFrame.new_book(self.popup)
+            self.popup = pop.PopUp(self, False, True)
+            loop = True
+            while(loop): 
+                self.response = self.popup.run()
+                if (self.response == Gtk.ResponseType.OK):
+                    self.leftFrame.new_book(self.popup)
+                    loop = False
+            
             self.popup.destroy()
 
     def open_clicked(self, action, none):
@@ -127,7 +131,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
     def new_clicked(self, action, none):
         self.check = True
-        self.popup = pop.PopUp(self, True)
+        self.popup = pop.PopUp(self, True, False)
         while (self.check):
             self.check = False
             self.response = self.popup.run()
@@ -163,7 +167,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
     def new_book_clicked(self, action, none):
         self.check = True
-        self.popup = pop.PopUp(self, False)
+        self.popup = pop.PopUp(self, False, False)
         while (self.check):
             self.check = False
             self.response = self.popup.run()
