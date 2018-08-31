@@ -49,7 +49,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.rightFrame.set_vexpand(True)
 
         # Left Side Bar
-        self.leftFrame = sidebar.SidebarWindow(self.buff, self)
+        self.leftFrame = sidebar.SidebarWindow(self.mytext, self)
 
         # creates grid and adds frames
         self.grid = Gtk.Grid()

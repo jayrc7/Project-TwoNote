@@ -46,7 +46,7 @@ class Notebook:
         row = Gtk.ListBoxRow()
         self.name = page_name
         toggleButton = PageButton(notebook_name, page_name)
-        toggleButton.connect("pressed", self.open_page, self)
+        toggleButton.connect("clicked", self.open_page, self)
         self.buttons.append(toggleButton)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         row.add(box)
@@ -119,6 +119,7 @@ class PageButton(Gtk.ToggleButton):
     def __init__(self, notebookname, page_name):
         Gtk.ToggleButton.__init__(self, label=page_name)
         self.notebook_name = notebookname
+
 
     def get_page_name(self):
         tmp = self.get_label()

@@ -8,10 +8,13 @@ gi.require_version('Gtk', '3.0')
 
 
 class SidebarWindow(Gtk.Frame):
-    def __init__(self, textbuffer, win):
+    def __init__(self, textview, win):
         Gtk.Frame.__init__(self)
 
-        self.buff = textbuffer
+        self.text_view = textview
+        self.text_view.set_editable(False)
+        self.buff = self.text_view.get_buffer()
+
         self.popup = None
         self.win = win
         # keeps track of notebooks
@@ -315,20 +318,14 @@ class SidebarWindow(Gtk.Frame):
         self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
         self.notebook = self.notebook_check(self.notebookname)
         self.pagename = self.notebook.pages[-1]
-        
 
-        #special character in the end of current notebook and name
-        for i in range(len(self.notebook.buttons)):
-            if(self.notebook.buttons[i].get_label() == self.pagename):
-                self.active_button = self.notebook.buttons[i]
-                self.notebook.buttons[i].set_active(True)
-                tmpname = self.active_button.get_page_name()
-                self.load_current_page(tmpname)
+
 
     def load_current_page(self, name):
         file = open(name, 'r')
         contents = file.read()
         self.buff.set_text(contents)
+        self.text_view.set_editable(True)
 
     def save_current_page(self, name):
         prev_file = open(name, 'w+')
