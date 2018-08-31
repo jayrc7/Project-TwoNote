@@ -115,10 +115,11 @@ class SidebarWindow(Gtk.Frame):
             self.notebook_names.append(self.notebookname)
             self.notebook = note.Notebook(self.notebookname, self)
             self.pagename = self.popup.entry2.get_text()
-            self.page = tree.BinaryTree.Page(self.pagename)
+            #self.page = tree.BinaryTree.Page(self.pagename)
             save_name = self.notebookname + '_' + self.pagename
             GLib.file_set_contents(save_name, '')
-            self.notebook.add(self.page)
+            #self.notebook.add(self.page)
+            self.notebook.add(self.pagename)
             self.notebook_list.append(self.notebook)
 
             # adds notebook to gui
@@ -157,8 +158,9 @@ class SidebarWindow(Gtk.Frame):
 
     def new_page_nopop(self, pagename , notebook):
         self.pagename = pagename
-        self.page = tree.BinaryTree.Page(self.pagename)
-        notebook.add(self.page)
+        #self.page = tree.BinaryTree.Page(self.pagename)
+        #notebook.add(self.page)
+        notebook.add(self.pagename)
         ## update gui
         self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
         self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
@@ -168,20 +170,23 @@ class SidebarWindow(Gtk.Frame):
 
 
     def new_page(self, popup):
+        
         self.popup = popup
         client_response = self.popup.entry.get_text()
         if (not self.notebook.contains_page(client_response)):
             ##SAVE
             self.buff.set_text("")
             self.pagename = self.popup.entry.get_text()
-            self.page = tree.BinaryTree.Page(self.pagename)
+            #self.page = tree.BinaryTree.Page(self.pagename)
 
 
             ## update gui
             self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
             self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
             self.notebook = self.notebook_check(self.notebookname)
-            self.notebook.add(self.page)
+
+            #self.notebook.add(self.page)
+            self.notebook.add(self.pagename)
 
             self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, self.notebookname)
             save_name = self.notebookname + '_' + self.pagename
@@ -260,13 +265,34 @@ class SidebarWindow(Gtk.Frame):
             page = self.notebook_layout.get_current_page()
             self.notebook_layout.remove_page(page)
 
-            self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
-            self.notebookname = self.notebook_list[-1].NotebookName
-            self.notebook = self.notebook_check(self.notebookname)
-            self.pagename = self.notebook.pages[-1]
-            #for i in range
+            if(len(self.notebook_list) == 0):
+                self.win.new_book_initial()
 
-            
+            else:
+                self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
+                self.notebookname = self.notebook_list[-1].NotebookName
+                print(self.notebookname)
+                self.notebook = self.notebook_check(self.notebookname)
+                self.pagename = self.notebook.pages[-1]
+                for i in range(len(self.notebook.buttons)):
+                    if(self.notebook.buttons[i].get_label() == self.pagename):
+                        self.active_button = self.notebook.buttons[i]
+                        self.active_button.set_active(True)
+
+
+
+        else:
+            for i in range(1, len(buttons)):
+                if(buttons[i].get_active() == True):
+                    print(buttons[i].name.get_text())
+                    self.notebook.pages.remove(buttons[i].name.get_text())
+                    list_row = self.gui_notebook_page.get_row_at_index(i-1)
+                    try:
+                        self.gui_notebook_page.remove(list_row)
+                    except TypeError:
+                        self.gui_notebook_page.remove(self.gui_notebook_page.get_row_at_index(0))
+
+                        
 
         self.save_notebook_contents()
 

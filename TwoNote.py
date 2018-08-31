@@ -86,6 +86,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.show_all()
 
         if (len(self.leftFrame.notebook_list) == 0):
+            self.new_book_initial()
+            '''
             self.popup = pop.PopUp(self, False, True)
             loop = True
             while(loop): 
@@ -95,11 +97,14 @@ class MainWindow(Gtk.ApplicationWindow):
                     loop = False
             
             self.popup.destroy()
-
+            '''
 
 
     def new_clicked(self, signal):
         self.check = True
+        self.leftFrame.gui_notebook_page = self.leftFrame.notebook.get_current_page(self.leftFrame.notebook_layout)
+        self.leftFrame.notebookname = self.leftFrame.notebook_layout.get_tab_label_text(self.leftFrame.gui_notebook_page)
+        self.leftFrame.notebook = self.leftFrame.notebook_check(self.leftFrame.notebookname)
         self.popup = pop.PopUp(self, True, False)
         while (self.check):
             self.check = False
@@ -126,6 +131,9 @@ class MainWindow(Gtk.ApplicationWindow):
         self.rename_pop.destroy()
 
     def delete(self, signal):
+        self.leftFrame.gui_notebook_page = self.leftFrame.notebook.get_current_page(self.leftFrame.notebook_layout)
+        self.leftFrame.notebookname = self.leftFrame.notebook_layout.get_tab_label_text(self.leftFrame.gui_notebook_page)
+        self.leftFrame.notebook = self.leftFrame.notebook_check(self.leftFrame.notebookname)
         self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname,
                                      self.leftFrame.pagename)
         self.response = self.delete_pop.run()
@@ -161,6 +169,18 @@ class MainWindow(Gtk.ApplicationWindow):
             name = self.leftFrame.active_button.get_page_name()
             self.leftFrame.save_current_page(name)
         self.leftFrame.save_notebook_contents()
+
+    def new_book_initial(self):
+        self.popup = pop.PopUp(self, False, True)
+        loop = True
+        while(loop): 
+            self.response = self.popup.run()
+            if (self.response == Gtk.ResponseType.OK):
+                self.leftFrame.new_book(self.popup)
+                loop = False
+            
+        self.popup.destroy()
+
 
 if __name__ == '__main__':
     win = MainWindow()

@@ -8,7 +8,7 @@ class Notebook:
     def __init__(self, string, win):
         self.sidebar = win
         self.NotebookName = string
-        self.tree = btree.BinaryTree()
+        #self.tree = btree.BinaryTree()
         self.pages = []
         self.buttons = []
         self.boolean = True
@@ -16,9 +16,9 @@ class Notebook:
 
         self.currentButton = None
 
-    def add(self, page):
-        self.tree.insert(page)
-        self.pages.append(page.val)
+    def add(self, pagename):
+        #self.tree.insert(page)
+        self.pages.append(pagename)
 
     def list_pages(self):
         if (len(self.pages) == 0):
@@ -77,8 +77,11 @@ class Notebook:
                 self.pages[i] = new_name
 
     def contains_page(self, name):
+        print(self.NotebookName)
         for i in range(len(self.pages)):
-            if(self.pages == name):
+            if(self.pages[i] == name):
+                print(self.NotebookName)
+                print("here asdfasdfasd")
                 return True
 
         return False
@@ -92,16 +95,6 @@ class Notebook:
         prev_file.write(buff_content)
 
     def open_page(signal, button, notebook):
-        '''
-        if(len(noteboook.sidebar.notebook_list) == 1 and notebook.boolean):
-            notebook.sidebar.active_button = button
-            notebook.sidebar.active_button.set_active(True)
-            notebook.sidebar.initial_button = False
-            print("True")
-            notebook.boolean = False
-
-        else:
-        '''
         notebook.currentButton = button
         notebook.sidebar.text_view.reset()
         notebook.sidebar.previous_button = notebook.sidebar.active_button

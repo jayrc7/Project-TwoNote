@@ -93,7 +93,7 @@ class Delete(Gtk.Dialog):
         self.box2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         label = Gtk.Label(name)
-        self.button = Gtk.CheckButton()
+        self.button = GuiButton(name)
         self.check_buttons.append(self.button)
 
         self.box1.pack_start(label, True, True, 0)
@@ -103,7 +103,7 @@ class Delete(Gtk.Dialog):
             label = Gtk.Label(notebook.pages[i])
             self.box1.pack_start(label, True, True, 0)
 
-            self.button = Gtk.CheckButton()
+            self.button = GuiButton(label)
             self.check_buttons.append(self.button)
             if (label.get_text() == pagename):
                 self.button.set_active(True)
@@ -141,3 +141,9 @@ class Duplicate(Gtk.Dialog):
         area.add(self.label)
 
         area.show_all()
+
+
+class GuiButton(Gtk.CheckButton):
+    def __init__ (self, pagename):
+        Gtk.CheckButton.__init__(self)
+        self.name = pagename
