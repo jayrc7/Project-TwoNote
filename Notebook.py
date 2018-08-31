@@ -103,6 +103,7 @@ class Notebook:
         else:
         '''
         notebook.currentButton = button
+        notebook.sidebar.text_view.reset()
         notebook.sidebar.previous_button = notebook.sidebar.active_button
         if(notebook.sidebar.previous_button != None):
             prev_name = notebook.sidebar.previous_button.get_page_name()
