@@ -191,7 +191,7 @@ class MainWindow(Gtk.ApplicationWindow):
         print("settings")
 
     def on_destroy(self, widget = None, *data):
-        name = self.leftFrame.active_button.get_label()
+        name = self.leftFrame.active_button.get_page_name()
         self.leftFrame.save_current_page(name)
         self.leftFrame.save_notebook_contents()
 
