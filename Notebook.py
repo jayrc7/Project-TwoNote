@@ -45,24 +45,18 @@ class Notebook:
         currentpage = layout.get_nth_page(current)
         return currentpage
 
-    def add_page_gui(self, page, name, buff):
+    def add_page_gui(self, page, page_name, notebook_name):
         row = Gtk.ListBoxRow()
-        self.name = name
-        toggleButton = Gtk.ToggleButton(label=name)
-        toggleButton.connect("pressed", self.open_page, self, name, buff)
+        self.name = page_name
+        toggleButton = PageButton(notebook_name, page_name)
+        toggleButton.connect("pressed", self.open_page, self)
         self.buttons.append(toggleButton)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         row.add(box)
         box.pack_start(toggleButton, True, True, 0)
         page.add(row)
 
-        #toggleButton.set_active(True)
 
-        #if(self.boolean):
-            #self.activate(toggleButton) 
-        
-
-    # returns listbox(page),not notebook tab
     def get_current_page(self, layout):
         return layout.get_nth_page(layout.get_current_page())
 
@@ -100,7 +94,7 @@ class Notebook:
         buff_content = buff.get_text(start, end, True)
         prev_file.write(buff_content)
 
-    def open_page(signal, button, notebook, name, buff):
+    def open_page(signal, button, notebook):
         '''
         if(len(noteboook.sidebar.notebook_list) == 1 and notebook.boolean):
             notebook.sidebar.active_button = button
@@ -112,26 +106,27 @@ class Notebook:
         else:
         '''
         notebook.currentButton = button
-        #if(notebook.currentButton == notebook.sidebar.active_button):
-            #notebook.sidebar.active_button.set_active(True)
-            #return
         notebook.sidebar.previous_button = notebook.sidebar.active_button
         if(notebook.sidebar.previous_button != None):
-            prev_name = notebook.sidebar.previous_button.get_label()
+            prev_name = notebook.sidebar.previous_button.get_page_name()
             notebook.sidebar.save_current_page(prev_name)
             notebook.sidebar.previous_button.set_active(False)
 
+        name = button.get_page_name()
         notebook.sidebar.load_current_page(name)
         notebook.sidebar.active_button = button
         notebook.boolean = False
 
-        
-        #if(notebook.sidebar.previous_button == notebook.sidebar.active_button):
-            #s
 
-    #def activate(self, button):
-        
-        #if(notebook.sidebar.active_button == notebook.sidebar.previous_button):
-            #notebook.sidebar.active_button.set_active(True)
+class PageButton(Gtk.ToggleButton):
+    def __init__(self, notebookname, page_name):
+        Gtk.ToggleButton.__init__(self, label=page_name)
+        self.notebook_name = notebookname
 
-    #def remove_page(self, buttons):
+    def get_page_name(self):
+        tmp = self.get_label()
+        return self.notebook_name + "_" + tmp
+
+
+
+
