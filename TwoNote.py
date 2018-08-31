@@ -19,14 +19,14 @@ class MainWindow(Gtk.ApplicationWindow):
         self.header.props.title = "TwoNote"
         self.set_titlebar(self.header)
         self.check = None
-        # men button on right
-        self.menuButton = Gtk.MenuButton()
+
 
         # drop menu
-        self.menu = menu_button.NoteMenu()
-        self.menuButton.set_menu_model(self.menu)
+        self.new_notebook_button = Gtk.Button.new_from_icon_name("emblem-new", 4)
+        self.new_notebook_button.connect("clicked", self.new_book_clicked)
 
-        self.header.pack_start(self.menuButton)
+
+        self.header.pack_start(self.new_notebook_button)
 
         # buttons for toolbar
         self.button_bold = Gtk.ToggleToolButton()
@@ -81,30 +81,6 @@ class MainWindow(Gtk.ApplicationWindow):
 
         self.header.pack_start(self.box)
 
-        Gio.SimpleActionGroup.__init__(self)
-        self.new_action = Gio.SimpleAction.new("new", None)
-        self.new_action.connect("activate", self.new_clicked)
-        self.add_action(self.new_action)
-
-        self.new_book_action = Gio.SimpleAction.new("new_notebook", None)
-        self.new_book_action.connect("activate", self.new_book_clicked)
-        self.add_action(self.new_book_action)
-
-        self.open_action = Gio.SimpleAction.new("open", None)
-        self.open_action.connect("activate", self.open_clicked)
-        self.add_action(self.open_action)
-
-        self.save_action = Gio.SimpleAction.new("save", None)
-        self.save_action.connect("activate", self.save_clicked)
-        self.add_action(self.save_action)
-
-        self.save_as_action = Gio.SimpleAction.new("save_as", None)
-        self.save_as_action.connect("activate", self.save_as_clicked)
-        self.add_action(self.save_as_action)
-
-        self.settings_action = Gio.SimpleAction.new("settings", None)
-        self.settings_action.connect("activate", self.settings_clicked)
-        self.add_action(self.settings_action)
         self.connect('destroy', Gtk.main_quit)
         self.connect('delete_event', self.on_destroy)
         self.show_all()
@@ -120,10 +96,9 @@ class MainWindow(Gtk.ApplicationWindow):
             
             self.popup.destroy()
 
-    def open_clicked(self, action, none):
-        menu_button.open_file(self, self.mytext)
 
-    def new_clicked(self, action, none):
+
+    def new_clicked(self, signal):
         self.check = True
         self.popup = pop.PopUp(self, True, False)
         while (self.check):
@@ -159,7 +134,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
         self.delete_pop.destroy()
 
-    def new_book_clicked(self, action, none):
+    def new_book_clicked(self, signal):
         self.check = True
         self.popup = pop.PopUp(self, False, False)
         while (self.check):
@@ -181,18 +156,10 @@ class MainWindow(Gtk.ApplicationWindow):
         self.duplicate2.destroy()
         self.check = True
 
-    def save_clicked(self, action, none):
-        menu_button.save_file(self, self.mytext)
-
-    def save_as_clicked(self, action, none):
-        print("save as")
-
-    def settings_clicked(self, action, none):
-        print("settings")
-
     def on_destroy(self, widget = None, *data):
-        name = self.leftFrame.active_button.get_page_name()
-        self.leftFrame.save_current_page(name)
+        if(self.leftFrame.active_button != None):
+            name = self.leftFrame.active_button.get_page_name()
+            self.leftFrame.save_current_page(name)
         self.leftFrame.save_notebook_contents()
 
 if __name__ == '__main__':
