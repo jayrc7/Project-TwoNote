@@ -29,14 +29,11 @@ class Notebook:
                 print(self.pages[i])
 
     def add_notebook_gui(self, layout, name):
-        layout.insert_page(Gtk.ListBox(), Gtk.Label(name), -1)
+        list_box = Gtk.ListBox()
+        list_box.set_selection_mode(Gtk.SelectionMode.NONE)
+        #list_box.set_activate_on_single_click(False)
+        layout.insert_page(list_box, Gtk.Label(name), -1)
         layout.show_all()
-
-    def notebook_iterator(self):
-        page_list = []
-        self.iterator = btree.BinaryTree.Iterator(self.tree)
-        #for i in range(self.tree.size):
-            #print(self.iterator.next())
 
     ##makes newly made notebook tab to current and returns listbox(page)
     def set_current_section(self, layout):
@@ -86,11 +83,11 @@ class Notebook:
                 self.pages[i] = new_name
 
     def contains_page(self, name):
-        if (self.tree.find(name)):
-            return True
+        for i in range(len(self.pages)):
+            if(self.pages == name):
+                return True
 
-        else:
-            return False
+        return False
 
     def save_current_page(self, notebook, buff):
         button = notebook.sidebar.active_button
@@ -115,6 +112,7 @@ class Notebook:
         #if(notebook.currentButton == notebook.sidebar.active_button):
             #notebook.sidebar.active_button.set_active(True)
             #return
+        #notebook.sidebar.gui_notebook_page.unselect_all()
         notebook.sidebar.previous_button = notebook.sidebar.active_button
         if(notebook.sidebar.previous_button != None):
             prev_name = notebook.sidebar.previous_button.get_label()

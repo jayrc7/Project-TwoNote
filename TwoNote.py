@@ -1,5 +1,4 @@
 import gi
-
 import Menu_Button as menu_button
 import Popup as pop
 import TextSet as text_set

@@ -6,8 +6,9 @@ from gi.repository import Gtk
 
 class PopUp(Gtk.Dialog):
 
-    def __init__(self, parent, boolean):
-
+    def __init__(self, parent, boolean, boolean2):
+        
+        #boolean2 takes care of initial popup
         if (boolean == True):
             name = "New Page"
 
@@ -15,7 +16,12 @@ class PopUp(Gtk.Dialog):
             name = "New NoteBook"
 
         Gtk.Dialog.__init__(self, name, parent, modal=True)
-        self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
+        if(boolean2):
+            self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+
+        else:
+            self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
+
         self.set_default_size(200, 100)
         self.set_border_width(30)
 

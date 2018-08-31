@@ -207,7 +207,6 @@ class SidebarWindow(Gtk.Frame):
                 note_boolean = True
             else:
                 self.win.duplicate_false()
-
         page_boolean = True
         if(self.notebook.contains_page(response2)):
             page_boolean = False
