@@ -46,7 +46,7 @@ class Notebook:
         row = Gtk.ListBoxRow()
         self.name = page_name
         toggleButton = PageButton(notebook_name, page_name)
-        toggleButton.connect("pressed", self.open_page, self)
+        toggleButton.connect("clicked", self.open_page, self)
         self.buttons.append(toggleButton)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         row.add(box)
@@ -103,6 +103,7 @@ class Notebook:
         else:
         '''
         notebook.currentButton = button
+        notebook.sidebar.text_view.reset()
         notebook.sidebar.previous_button = notebook.sidebar.active_button
         if(notebook.sidebar.previous_button != None):
             prev_name = notebook.sidebar.previous_button.get_page_name()

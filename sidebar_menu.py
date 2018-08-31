@@ -8,10 +8,13 @@ gi.require_version('Gtk', '3.0')
 
 
 class SidebarWindow(Gtk.Frame):
-    def __init__(self, textbuffer, win):
+    def __init__(self, textview, win):
         Gtk.Frame.__init__(self)
 
-        self.buff = textbuffer
+        self.text_view = textview
+        self.text_view.set_editable(False)
+        self.buff = self.text_view.get_buffer()
+
         self.popup = None
         self.win = win
         # keeps track of notebooks
@@ -58,8 +61,10 @@ class SidebarWindow(Gtk.Frame):
         self.notebook_layout.set_tab_pos(Gtk.PositionType.LEFT)
 
         # sidebar buttons
-        self.rename_button = Gtk.Button(label="Rename")
-        self.delete_button = Gtk.Button(label="Delete")
+        self.new_page_button = Gtk.Button.new_from_icon_name("document-new", 2)
+        self.rename_button = Gtk.Button.new_from_icon_name("document-edit", 2)
+        self.delete_button = Gtk.Button.new_from_icon_name("trash-empty", 2)
+        self.new_page_button.connect("clicked", win.new_clicked)
         self.rename_button.connect("clicked", win.rename)
         self.delete_button.connect("clicked", win.delete)
 
@@ -70,6 +75,9 @@ class SidebarWindow(Gtk.Frame):
         self.buttons_Left = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.rename_button.set_property("width-request", 20)
         self.delete_button.set_property("width-request", 20)
+        self.buttons_Left.set_homogeneous(True)
+        self.buttons_Left.set_spacing(50)
+        self.buttons_Left.pack_start(self.new_page_button, False, True, 0)
         self.buttons_Left.pack_start(self.rename_button, False, True, 0)
         self.buttons_Left.pack_start(self.delete_button, False, True, 0)
 
@@ -315,20 +323,14 @@ class SidebarWindow(Gtk.Frame):
         self.notebookname = self.notebook_layout.get_tab_label_text(self.gui_notebook_page)
         self.notebook = self.notebook_check(self.notebookname)
         self.pagename = self.notebook.pages[-1]
-        
 
-        #special character in the end of current notebook and name
-        for i in range(len(self.notebook.buttons)):
-            if(self.notebook.buttons[i].get_label() == self.pagename):
-                self.active_button = self.notebook.buttons[i]
-                self.notebook.buttons[i].set_active(True)
-                tmpname = self.active_button.get_page_name()
-                self.load_current_page(tmpname)
+
 
     def load_current_page(self, name):
         file = open(name, 'r')
         contents = file.read()
         self.buff.set_text(contents)
+        self.text_view.set_editable(True)
 
     def save_current_page(self, name):
         prev_file = open(name, 'w+')
