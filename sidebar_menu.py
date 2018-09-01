@@ -144,7 +144,7 @@ class SidebarWindow(Gtk.Frame):
                         self.previous_button.set_active(False)
 
             '''
-
+            self.previous_button = self.active_button
             self.active_button = self.notebook.buttons[0]
             self.active_button.set_active(True)
             if(self.previous_button != None):
@@ -212,7 +212,8 @@ class SidebarWindow(Gtk.Frame):
                 self.active_button = self.notebook.buttons[i]
                 
                 self.notebook.buttons[i].set_active(True)
-                self.previous_button.set_active(False)
+                if(self.previous_button != None):
+                    self.previous_button.set_active(False)
                 
 
 
@@ -256,7 +257,7 @@ class SidebarWindow(Gtk.Frame):
 
             # updates binary tree name and page name
             self.notebook.set_name(self.notebookname)
-            self.page.set_name(self.pagename)
+            #self.page.set_name(self.pagename)
 
             # updates notebook tab gui
             self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
@@ -299,6 +300,8 @@ class SidebarWindow(Gtk.Frame):
                         self.gui_notebook_page.remove(list_row)
                     except TypeError:
                         self.gui_notebook_page.remove(self.gui_notebook_page.get_row_at_index(0))
+
+                   
 
                         
 

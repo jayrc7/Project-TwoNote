@@ -49,7 +49,7 @@ class Notebook:
         self.name = page_name
         toggleButton = PageButton(notebook_name, page_name)
         #toggleButton.set_name('turquoise')
-        toggleButton.connect("clicked", self.open_page, self)
+        toggleButton.connect("pressed", self.open_page, self)
         self.buttons.append(toggleButton)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
         box.set_name('header')
@@ -81,7 +81,6 @@ class Notebook:
                 self.pages[i] = new_name
 
     def contains_page(self, name):
-        print(self.NotebookName)
         for i in range(len(self.pages)):
             if(self.pages[i] == name):
                 return True
