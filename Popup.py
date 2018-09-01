@@ -24,6 +24,7 @@ class PopUp(Gtk.Dialog):
 
         self.set_default_size(200, 100)
         self.set_border_width(30)
+        self.set_name('grey')
 
         area = self.get_content_area()
 
@@ -49,6 +50,7 @@ class PopUp(Gtk.Dialog):
 class Rename(Gtk.Dialog):
     def __init__(self, parent, notebook_name, page_name):
         Gtk.Dialog.__init__(self, "Rename", parent, destroy_with_parent=True)
+        self.set_name('grey')
         self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(200, 100)
         self.set_border_width(30)
@@ -75,6 +77,7 @@ class Delete(Gtk.Dialog):
     def __init__(self, parent, notebook, name, pagename):
 
         Gtk.Dialog.__init__(self, "Delete", parent, modal=True)
+        self.set_name('grey')
         self.add_buttons("Cancel", Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK)
         self.set_default_size(300, 225)
         self.set_border_width(60)
@@ -124,6 +127,7 @@ class Duplicate(Gtk.Dialog):
         Gtk.Dialog.__init__(self, "Duplicate Found", parent, modal=True)
         self.add_buttons(Gtk.STOCK_OK, Gtk.ResponseType.OK)
 
+        self.set_name('grey')
         self.set_default_size(200, 100)
         self.set_border_width(30)
 
@@ -142,6 +146,26 @@ class Duplicate(Gtk.Dialog):
 
         area.show_all()
 
+class Welcome(Gtk.Dialog):
+    def __init__(self, parent):
+        Gtk.Dialog.__init__(self, "Welcome", parent, modal=True)
+        self.set_default_size(600,200)
+        self.set_border_width(30)
+        self.set_name('grey')
+
+        area = self.get_content_area()
+        
+        label = Gtk.Label("Project TwoNote")
+        label.set_name('label')
+        label2 = Gtk.Label("Version 0.5")
+        label2.set_name('label2')
+        label3 = Gtk.Label("September 2018")
+        label3.set_name('label2')
+        area.add(label)
+        area.add(label2)
+        area.add(label3)
+
+        area.show_all()
 
 class GuiButton(Gtk.CheckButton):
     def __init__ (self, pagename):

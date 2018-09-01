@@ -30,6 +30,7 @@ class Notebook:
 
     def add_notebook_gui(self, layout, name):
         list_box = Gtk.ListBox()
+        list_box.set_name('grey')
         list_box.set_selection_mode(Gtk.SelectionMode.NONE)
         #list_box.set_activate_on_single_click(False)
         layout.insert_page(list_box, Gtk.Label(name), -1)
@@ -44,11 +45,14 @@ class Notebook:
 
     def add_page_gui(self, page, page_name, notebook_name):
         row = Gtk.ListBoxRow()
+        row.set_name('header')
         self.name = page_name
         toggleButton = PageButton(notebook_name, page_name)
+        #toggleButton.set_name('turquoise')
         toggleButton.connect("clicked", self.open_page, self)
         self.buttons.append(toggleButton)
         box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=100)
+        box.set_name('header')
         row.add(box)
         box.pack_start(toggleButton, True, True, 0)
         page.add(row)
@@ -80,8 +84,6 @@ class Notebook:
         print(self.NotebookName)
         for i in range(len(self.pages)):
             if(self.pages[i] == name):
-                print(self.NotebookName)
-                print("here asdfasdfasd")
                 return True
 
         return False

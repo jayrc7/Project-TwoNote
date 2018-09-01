@@ -51,9 +51,12 @@ class SidebarWindow(Gtk.Frame):
 
         # left vbox for notebook name
         self.hboxLeft = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        # self.gridLeft = Gtk.Grid()
+        self.hboxLeft.set_name('notebook')
+        self.gridLeft = Gtk.Grid()
+        self.gridLeft.set_name('notebook')
         self.hboxLeft.set_homogeneous(False)
         self.notebook_layout = Gtk.Notebook()
+        self.notebook_layout.set_name('grey')
         self.hboxLeft.set_property("width-request", 20)
         self.hboxLeft.set_hexpand(True)
 
@@ -131,6 +134,7 @@ class SidebarWindow(Gtk.Frame):
             self.notebook.add_page_gui(self.gui_notebook_page, self.pagename, self.notebookname)
 
             #sets new button active
+            '''
             for i in range(len(self.notebook.buttons)):
                 if(self.notebook.buttons[i].get_label() == self.pagename):
                     self.previous_button = self.active_button
@@ -139,6 +143,12 @@ class SidebarWindow(Gtk.Frame):
                     if(self.previous_button != None):
                         self.previous_button.set_active(False)
 
+            '''
+
+            self.active_button = self.notebook.buttons[0]
+            self.active_button.set_active(True)
+            if(self.previous_button != None):
+                self.previous_button.set_active(False)
 
             self.save_notebook_contents()
             self.notebook_layout.show_all()
@@ -271,7 +281,6 @@ class SidebarWindow(Gtk.Frame):
             else:
                 self.gui_notebook_page = self.notebook.get_current_page(self.notebook_layout)
                 self.notebookname = self.notebook_list[-1].NotebookName
-                print(self.notebookname)
                 self.notebook = self.notebook_check(self.notebookname)
                 self.pagename = self.notebook.pages[-1]
                 for i in range(len(self.notebook.buttons)):
@@ -284,7 +293,6 @@ class SidebarWindow(Gtk.Frame):
         else:
             for i in range(1, len(buttons)):
                 if(buttons[i].get_active() == True):
-                    print(buttons[i].name.get_text())
                     self.notebook.pages.remove(buttons[i].name.get_text())
                     list_row = self.gui_notebook_page.get_row_at_index(i-1)
                     try:

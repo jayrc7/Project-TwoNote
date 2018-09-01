@@ -5,7 +5,7 @@ import TextSet as text_set
 import sidebar_menu as sidebar
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, Gdk
 import threading
 
 
@@ -15,6 +15,7 @@ class MainWindow(Gtk.ApplicationWindow):
         # size of window
         self.set_default_size(1920, 1080)
         self.header = Gtk.HeaderBar()
+        self.header.set_name('header')
         self.header.set_show_close_button(True)
         self.header.props.title = "TwoNote"
         self.set_titlebar(self.header)
@@ -30,11 +31,13 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # buttons for toolbar
         self.button_bold = Gtk.ToggleToolButton()
+        self.button_bold.set_name('yes')
         self.button_italic = Gtk.ToggleToolButton()
         self.button_underline = Gtk.ToggleToolButton()
 
         ## right vbox for notes
         self.vboxRight = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
+        self.vboxRight.set_name('yes')
         self.vboxRight.set_homogeneous(False)
         self.scroll_container = Gtk.ScrolledWindow()
         self.mytext = text_set.TextSet(self.button_bold, self.button_italic, self.button_underline)
@@ -53,8 +56,10 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # creates grid and adds frames
         self.grid = Gtk.Grid()
+        self.grid.set_name('grid')
         self.grid.attach(self.leftFrame, 0, 0, 1, 30)
         self.toolbar = Gtk.Toolbar()
+        self.toolbar.set_name('gains')
         self.grid.attach(self.toolbar, 2, 0, 5, 1)
         self.grid.attach_next_to(self.rightFrame, self.leftFrame, Gtk.PositionType.RIGHT, 7, 30)
 
@@ -86,6 +91,9 @@ class MainWindow(Gtk.ApplicationWindow):
         self.show_all()
 
         if (len(self.leftFrame.notebook_list) == 0):
+            welcome = pop.Welcome(self)
+            welcome.run()
+            welcome.destroy()
             self.new_book_initial()
             '''
             self.popup = pop.PopUp(self, False, True)
@@ -183,5 +191,38 @@ class MainWindow(Gtk.ApplicationWindow):
 
 
 if __name__ == '__main__':
+
+    css = '''
+        #header { background: #000080; }
+
+        #grid{ background: DodgerBlue; }
+
+        #notebook {background-color: #000080;}
+
+        #grey { background-color: #F0F8FF;}
+
+        #turquoise{ background-color: #40E0D0; }
+        
+        #gains {
+            background-color: #DCDCDC;}
+
+        #label{ font-size: 40px;
+        font-weight: Bold;
+        padding-bottom: 30px;
+        padding-top: 20px;}
+
+        #label2{ font-size: 20px;}
+        
+    '''
+
+    style_provider = Gtk.CssProvider()       
+    style_provider.load_from_data(css)
+
+    Gtk.StyleContext.add_provider_for_screen(
+        Gdk.Screen.get_default(), style_provider,     
+        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+    )     
+
     win = MainWindow()
+
     Gtk.main()
