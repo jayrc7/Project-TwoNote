@@ -102,14 +102,13 @@ class Delete(Gtk.Dialog):
         self.box1.pack_start(label, True, True, 0)
         self.box2.pack_start(self.button, True, True, 0)
 
-        for i in range(len(notebook.pages)):
-            label = Gtk.Label(notebook.pages[i])
-            self.box1.pack_start(label, True, True, 0)
+        label = Gtk.Label(pagename)
+        self.box1.pack_start(label, True, True, 0)
 
-            self.button = GuiButton(label)
-            self.check_buttons.append(self.button)
-            if (label.get_text() == pagename):
-                self.button.set_active(True)
+        self.button = GuiButton(label)
+        self.check_buttons.append(self.button)
+        if (label.get_text() == pagename):
+            self.button.set_active(True)
             self.box2.pack_start(self.button, True, True, 0)
 
         label = Gtk.Label('Deleting Notebook Will Delete Pages as Well.')

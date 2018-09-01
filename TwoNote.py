@@ -15,7 +15,7 @@ class MainWindow(Gtk.ApplicationWindow):
         # size of window
         self.set_default_size(1920, 1080)
         self.header = Gtk.HeaderBar()
-        self.header.set_name('header')
+        self.header.set_name('NavyBlue')
         self.header.set_show_close_button(True)
         self.header.props.title = "TwoNote"
         self.set_titlebar(self.header)
@@ -56,7 +56,7 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # creates grid and adds frames
         self.grid = Gtk.Grid()
-        self.grid.set_name('grid')
+        self.grid.set_name('DodgerBlue')
         self.grid.attach(self.leftFrame, 0, 0, 1, 30)
         self.toolbar = Gtk.Toolbar()
         self.toolbar.set_name('gains')
@@ -126,8 +126,12 @@ class MainWindow(Gtk.ApplicationWindow):
         self.leftFrame.gui_notebook_page = self.leftFrame.notebook.get_current_page(self.leftFrame.notebook_layout)
         self.leftFrame.notebookname = self.leftFrame.notebook_layout.get_tab_label_text(self.leftFrame.gui_notebook_page)
         self.leftFrame.notebook = self.leftFrame.notebook_check(self.leftFrame.notebookname)
+        
+        try:
+            self.leftFrame.pagename = self.leftFrame.active_button.pagename
 
-        self.leftFrame.pagename = self.leftFrame.active_button.get_label()
+        except AttributeError:
+            return
         
         self.rename_pop = pop.Rename(self, self.leftFrame.notebookname, self.leftFrame.pagename)
         while (self.check):
@@ -142,6 +146,11 @@ class MainWindow(Gtk.ApplicationWindow):
         self.leftFrame.gui_notebook_page = self.leftFrame.notebook.get_current_page(self.leftFrame.notebook_layout)
         self.leftFrame.notebookname = self.leftFrame.notebook_layout.get_tab_label_text(self.leftFrame.gui_notebook_page)
         self.leftFrame.notebook = self.leftFrame.notebook_check(self.leftFrame.notebookname)
+        try:
+            self.leftFrame.pagename = self.leftFrame.active_button.pagename
+
+        except AttributeError:
+            return
         self.delete_pop = pop.Delete(self, self.leftFrame.notebook, self.leftFrame.notebookname,
                                      self.leftFrame.pagename)
         self.response = self.delete_pop.run()
@@ -193,16 +202,14 @@ class MainWindow(Gtk.ApplicationWindow):
 if __name__ == '__main__':
 
     css = '''
-        #header { background: #000080; }
+        #NavyBlue { background: #000080; }
 
-        #grid{ background: DodgerBlue; }
+        #DodgerBlue{ background: DodgerBlue; }
 
         #notebook {background-color: #000080;}
 
         #grey { background-color: #F0F8FF;}
 
-        #turquoise{ background-color: #40E0D0; }
-        
         #gains {
             background-color: #DCDCDC;}
 

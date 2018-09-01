@@ -114,6 +114,7 @@ class PageButton(Gtk.ToggleButton):
     def __init__(self, notebookname, page_name):
         Gtk.ToggleButton.__init__(self, label=page_name)
         self.notebook_name = notebookname
+        self.pagename = page_name
 
 
     def get_page_name(self):
