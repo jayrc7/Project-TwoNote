@@ -25,9 +25,7 @@ class SidebarWindow(Gtk.Frame):
         self.notebook_buttons = []
 
         '''
-        set character limit on page
-        make delete and remove buttons work
-        made thread work activate one at a time
+        BUG TO FIX: cant load notebook with no pages, app crashes
         '''
 
         # current notebook instance variable
@@ -180,7 +178,6 @@ class SidebarWindow(Gtk.Frame):
 
 
     def new_page(self, popup):
-        
         self.popup = popup
         client_response = self.popup.entry.get_text()
         if (not self.notebook.contains_page(client_response)):
@@ -225,6 +222,7 @@ class SidebarWindow(Gtk.Frame):
     def rename(self, popup):
         self.rename_pop = popup
         temp = self.pagename
+        temp_book = self.notebookname
         response = self.rename_pop.entry_notebook.get_text()
         response2 = self.rename_pop.entry_page.get_text()
 
@@ -268,6 +266,10 @@ class SidebarWindow(Gtk.Frame):
             self.notebook.set_page_name(temp, self.pagename)
             self.active_button.set_page_name(self.pagename)
 
+            for i in range(len(self.notebook_names)):
+                if(self.notebook_names[i] == temp_book):
+                    self.notebook_names[i] = self.notebookname
+
     def delete(self, popup):
         buttons = popup.check_buttons
         #delete file
@@ -285,10 +287,14 @@ class SidebarWindow(Gtk.Frame):
                 self.notebookname = self.notebook_list[-1].NotebookName
                 self.notebook = self.notebook_check(self.notebookname)
                 self.pagename = self.notebook.pages[-1]
+                self.buff.set_text("")
+                '''
                 for i in range(len(self.notebook.buttons)):
                     if(self.notebook.buttons[i].get_label() == self.pagename):
                         self.active_button = self.notebook.buttons[i]
                         self.active_button.set_active(True)
+                        self.buff.set_te
+                '''
 
 
 
@@ -296,11 +302,13 @@ class SidebarWindow(Gtk.Frame):
             for i in range(1, len(buttons)):
                 if(buttons[i].get_active() == True):
                     self.notebook.pages.remove(buttons[i].name.get_text())
-                    list_row = self.gui_notebook_page.get_row_at_index(i-1)
+                    list_row = self.gui_notebook_page.get_row_at_index(i)
                     try:
                         self.gui_notebook_page.remove(list_row)
                     except TypeError:
                         self.gui_notebook_page.remove(self.gui_notebook_page.get_row_at_index(0))
+
+                    self.buff.set_text("")
 
                    
 
