@@ -266,6 +266,7 @@ class SidebarWindow(Gtk.Frame):
 
             # updates notebook page
             self.notebook.set_page_name(temp, self.pagename)
+            self.active_button.set_page_name(self.pagename)
 
     def delete(self, popup):
         buttons = popup.check_buttons

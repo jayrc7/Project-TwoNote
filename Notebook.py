@@ -78,6 +78,7 @@ class Notebook:
             if (self.pages[i] == previous_name):
                 widget = self.buttons[i]
                 widget.set_label(new_name)
+                print('in here')
                 self.pages[i] = new_name
 
     def contains_page(self, name):
@@ -120,6 +121,9 @@ class PageButton(Gtk.ToggleButton):
     def get_page_name(self):
         tmp = self.get_label()
         return self.notebook_name + "_" + tmp
+
+    def set_page_name(self, name):
+        self.pagename = name
 
 
 

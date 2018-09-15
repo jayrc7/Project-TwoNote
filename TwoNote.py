@@ -201,34 +201,6 @@ class MainWindow(Gtk.ApplicationWindow):
 
 if __name__ == '__main__':
 
-    css = '''
-        #NavyBlue { background: #000080; }
-
-        #DodgerBlue{ background: DodgerBlue; }
-
-        #notebook {background-color: #000080;}
-
-        #grey { background-color: #F0F8FF;}
-
-        #gains {
-            background-color: #DCDCDC;}
-
-        #label{ font-size: 40px;
-        font-weight: Bold;
-        padding-bottom: 30px;
-        padding-top: 20px;}
-
-        #label2{ font-size: 20px;}
-        
-    '''
-
-    style_provider = Gtk.CssProvider()       
-    style_provider.load_from_data(css)
-
-    Gtk.StyleContext.add_provider_for_screen(
-        Gdk.Screen.get_default(), style_provider,     
-        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-    )     
 
     win = MainWindow()
 
