@@ -24,10 +24,6 @@ class SidebarWindow(Gtk.Frame):
         # keeps track of buttons
         self.notebook_buttons = []
 
-        '''
-        BUG TO FIX: cant load notebook with no pages, app crashes
-        '''
-
         # current notebook instance variable
         self.notebookname = None
         self.pagename = None
