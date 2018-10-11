@@ -10,7 +10,12 @@ Project TwoNote is a note taking web app my good friend and I decided to build i
 
 A huge challenge for us was getting through the learning curve that comes with learning an API along with learning how python works. Out of all the components, the sidebar menu was the most time consuming to implement. With that being said, I'm proud of the progress we've made and I look forward to adding more features that optimize the client's experience.
 
-The application is currently in alpha, but version 1.0 should come by the end of 2019.
+The application is currently in alpha.
+
+Responsibilities:
+Front End Portion: I created the sidebar menu that contains the notebooks and notes using the PyGtk API, I also helped out with implementing the toolbar. We are still trying to understand how to properly implement the toolbar using the API. I also configured the text view to receive text. Using the API I also made the windows for deleting, renaming, creating notebooks/notes.
+
+Back End Portion: I developed the algorithms for creating, deleting, and renaming the notebooks/notes. Using knowledge from my data structures course, the Notebooks are stored in lists and inside the Notebooks are a list that represents the pages. I used multiple instance variables to represent the current notebook, page, and buttons (for the gui).
 
 
 Team: Jason Cabrera, Jorge Aparicio
