@@ -10,7 +10,7 @@ Responsibilities:
 
 Front End Portion: I created the sidebar menu that contains the notebooks and notes using the PyGtk API, I also helped out with implementing the toolbar. We are still trying to understand how to properly implement the toolbar using the API. I also configured the text view to receive text. Using the API I also made the windows for deleting, renaming, creating notebooks/notes.
 
-Back End Portion: I developed the algorithms for creating, deleting, and renaming the notebooks/notes. Using knowledge from my data structures course, the Notebooks are stored in lists and inside the Notebooks are a list that represents the pages. I used multiple instance variables to represent the current notebook, page, and buttons (for the gui).
+Back End Portion: I developed the algorithms for creating, deleting, and renaming the notebooks/notes. Using knowledge from my data structures course, the Notebooks are stored in lists and inside the Notebooks are a list that represents the pages. I used multiple instance variables to represent the current notebook, page, and buttons (for the gui). I also added safeguards so that notebooks/notes can't be named or renamed to an existing notebook/note.
 
 
 Project TwoNote is a note taking web app my good friend and I decided to build in the summer of 2018. In the process of doing so we learned Python, the PyGobject API and how to adapt to using a toolkit in order to implement the apps GUI. Our inspiration for making the app is the lack of good note taking apps Linux has to offer. The application uses a design thats intuitive, convenient, and subscribes to the native GTK design language. Our goal for this app is to make it the staple of Linux users productivity applications.
