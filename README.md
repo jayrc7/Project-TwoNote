@@ -7,6 +7,7 @@ originally hosted on <a href = "https://gitlab.com/jorge.aparicio/TwoNote"> GitL
 - Created to fill the missing gap for a good note taking app in Linux, currently in Alpha. 
 
 Responsibilities:
+
 Front End Portion: I created the sidebar menu that contains the notebooks and notes using the PyGtk API, I also helped out with implementing the toolbar. We are still trying to understand how to properly implement the toolbar using the API. I also configured the text view to receive text. Using the API I also made the windows for deleting, renaming, creating notebooks/notes.
 
 Back End Portion: I developed the algorithms for creating, deleting, and renaming the notebooks/notes. Using knowledge from my data structures course, the Notebooks are stored in lists and inside the Notebooks are a list that represents the pages. I used multiple instance variables to represent the current notebook, page, and buttons (for the gui).
