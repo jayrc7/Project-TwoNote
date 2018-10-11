@@ -1,5 +1,6 @@
 # Project-TwoNote
 originally hosted on <a href = "https://gitlab.com/jorge.aparicio/TwoNote"> GitLab. </a>
+DEMO VIDEO: <a href="https://www.youtube.com/watch?v=GVmKS1qHUqY"> TwoNote Video </a>
 
 - Adapted to using a Toolkit (PyGobject), learned Python as well while doing project. 
 - Developed algorithms in order to create, rename, edit and delete notebooks/notes using knowledge learned from data structures course.  
