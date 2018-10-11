@@ -1,5 +1,6 @@
 # Project-TwoNote
 originally hosted on <a href = "https://gitlab.com/jorge.aparicio/TwoNote"> GitLab. </a>
+
 DEMO VIDEO: <a href="https://www.youtube.com/watch?v=GVmKS1qHUqY"> TwoNote Video </a>
 
 - Adapted to using a Toolkit (PyGobject), learned Python as well while doing project. 
