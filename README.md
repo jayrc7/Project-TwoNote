@@ -18,7 +18,6 @@ Back End Portion: I developed the algorithms for creating, deleting, and renamin
 
 A huge challenge for us was getting through the learning curve that comes with learning an API along with learning how python works. Out of all the components, the sidebar menu was the most time consuming to implement. With that being said, I'm proud of the progress we've made and I look forward to adding more features that optimize the client's experience.
 
-The application is currently in alpha.
 
 
 
