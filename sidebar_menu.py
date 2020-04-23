@@ -1,6 +1,5 @@
 import gi
 from gi.repository import Gtk, GLib
-import BinaryTree as tree
 import Notebook as note
 import threading
 
